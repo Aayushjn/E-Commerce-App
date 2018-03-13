@@ -9,6 +9,8 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 public class CategoryPage extends AppCompatActivity {
+    public static final String PRODUCT = "com.example.aayush.onlineshopping.extra.PRODUCT";
+
     ListView categoryList;
     String[] categories = {"Clothing", "Consumer Electronics", "Appliances", "Furniture", "Books",
             "Food"};
@@ -33,7 +35,7 @@ public class CategoryPage extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
                 Intent intent = new Intent(getApplicationContext(), ProductPage.class);
-                //intent.putExtra("Category", parent.getItemAtPosition(position).toString());
+                intent.putExtra(PRODUCT, categories[position]);
                 startActivity(intent);
             }
         });

@@ -13,10 +13,16 @@ public class ProductPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_page);
 
-        Intent intent = getIntent();
-
         Toolbar toolbar = findViewById(R.id.productToolbar);
-        toolbar.setTitle(intent.getCharSequenceExtra("Category"));
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            toolbar.setTitle(extras.getString(CategoryPage.PRODUCT));
+        }
+        else{
+            toolbar.setTitle("Products");
+        }
+
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);

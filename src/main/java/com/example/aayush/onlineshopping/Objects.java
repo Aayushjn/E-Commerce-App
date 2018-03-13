@@ -8,19 +8,20 @@ import java.util.List;
  */
 
 public interface Objects {
+
     class Product implements Cloneable{
         float cost;
         int quantity;
-        long productID;
+        long productId;
         String category;
         String color;
         String name;
         String size;
         Vendor vendor;
 
-        Product(long productID, String name, String category, String color, String size,
+        Product(long productId, String name, String category, String color, String size,
                 int quantity, float cost, Vendor vendor){
-            this.productID = productID;
+            this.productId = productId;
             this.name = name;
             this.category = category;
             this.color = color;
@@ -28,6 +29,10 @@ public interface Objects {
             this.quantity = quantity;
             this.cost = cost;
             this.vendor = vendor;
+        }
+
+        void addToDb(){
+            
         }
     }
 
@@ -45,11 +50,11 @@ public interface Objects {
             totalCost += product.cost;
         }
 
-        Product getProduct(long productID){
+        Product getProduct(long productId){
             Product p = null;
             if(!productList.isEmpty()){
                 for(int i = 0;i < productList.size();i++){
-                    if(productList.get(i).productID == productID){
+                    if(productList.get(i).productId == productId){
                         p = productList.get(i);
                     }
                 }
@@ -57,10 +62,10 @@ public interface Objects {
             return p;
         }
 
-        void removeProduct(long productID){
+        void removeProduct(long productId){
             if(!productList.isEmpty()){
                 for(int i = 0;i < productList.size();i++){
-                    if(productList.get(i).productID == productID){
+                    if(productList.get(i).productId == productId){
                         productList.remove(i);
                     }
                 }
@@ -69,18 +74,18 @@ public interface Objects {
     }
 
     abstract class Person{
-        long id;
+        long Id;
         String address;
-        String emailID;
+        String emailId;
         String name;
         String password;
         String username;
 
-        Person(String name, String username, String password, String emailID, String address){
+        Person(String name, String username, String password, String emailId, String address){
             this.name = name;
             this.username = username;
             this.password = password;
-            this.emailID = emailID;
+            this.emailId = emailId;
             this.address = address;
         }
     }
@@ -88,8 +93,8 @@ public interface Objects {
     class User extends Person{
         Cart cart;
 
-        User(String name, String username, String password, String emailID, String address){
-            super(name, username, password, emailID, address);
+        User(String name, String username, String password, String emailId, String address){
+            super(name, username, password, emailId, address);
             cart = new Cart();
         }
     }
@@ -97,8 +102,8 @@ public interface Objects {
     class Vendor extends Person{
         List<Product> products;
 
-        Vendor(String name, String username, String password, String emailID, String address){
-            super(name, username, password, emailID, address);
+        Vendor(String name, String username, String password, String emailId, String address){
+            super(name, username, password, emailId, address);
             products = new ArrayList<>();
         }
     }
