@@ -1,0 +1,9 @@
+#Automatically generated header file. Editing this file may cause problems.
+#Tue Mar 13 14:44:02 IST 2018
+serverVersion=2.6
+dexState=NO_CHANGE
+package=com.example.aayush.onlineshopping
+version=8
+serverVersionCode=71
+dexManagerName=ExtractFromApkDexManager
+appTheme=@style/AppTheme
