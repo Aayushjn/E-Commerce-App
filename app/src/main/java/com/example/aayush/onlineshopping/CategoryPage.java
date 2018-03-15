@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
 
+import com.example.aayush.onlineshopping.Adapters.CustomListAdapter;
+
 public class CategoryPage extends AppCompatActivity {
     public static final String PRODUCT = "com.example.aayush.onlineshopping.extra.PRODUCT";
 
@@ -29,8 +31,9 @@ public class CategoryPage extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         categoryList = findViewById(R.id.categoryList);
-        CustomAdapter customAdapter = new CustomAdapter(getApplicationContext(), categories, icons);
-        categoryList.setAdapter(customAdapter);
+        CustomListAdapter listAdapter = new CustomListAdapter(getApplicationContext(), categories,
+                icons);
+        categoryList.setAdapter(listAdapter);
         categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){

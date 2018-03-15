@@ -2,4 +2,7 @@
     <string name="app_name">Online Shopping</string>
     <string name="product_activity">Product Page</string>
     <string name="icon">Icon</string>
+    <string name="price">Price</string>
+    <string name="product_title">Product Title</string>
+    <string name="product_image">Product Image</string>
 </resources>

@@ -18,53 +18,12 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="#ffffff"
-        android:orientation="vertical"
-        android:padding="1.5dp" >
-
-        <ImageView
-            android:id="@+id/img"
-            android:layout_width="150dp"
-            android:layout_height="250dp"
-            android:layout_gravity="top|center"
-            android:padding="5dp"
-            android:src="@drawable/product" />
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="1.5dp"
-            android:background="#e6e6e6" />
-
-        <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="bottom|center_horizontal">
-
-            <TextView
-                android:id="@+id/titleText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentTop="true"
-                android:layout_marginTop="2dp"
-                android:hint="Product Title"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
-
-            <TextView
-                android:id="@+id/priceText"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentTop="true"
-                android:hint="Price"
-                android:textColor="@android:color/black"
-                android:textSize="18sp" />
-
-        </RelativeLayout>
-    </LinearLayout>
+    <GridView
+        android:id="@+id/productGrid"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:columnWidth="130dp"
+        android:numColumns="auto_fit"
+        android:stretchMode="columnWidth"
+        android:gravity="center" />
 </LinearLayout>
