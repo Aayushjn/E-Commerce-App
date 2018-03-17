@@ -5,4 +5,8 @@
     <string name="price">Price</string>
     <string name="product_title">Product Title</string>
     <string name="product_image">Product Image</string>
+    <string name="description">Description</string>
+    <string name="category">Category</string>
+    <string name="cart_add">Add to Cart</string>
+    <string name="cart_button">Cart Button</string>
 </resources>

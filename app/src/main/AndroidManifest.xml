@@ -4,6 +4,7 @@
 
     <application
         android:allowBackup="true"
+        android:fullBackupContent="@xml/backup_descriptor"
         android:icon="@mipmap/app_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
@@ -16,12 +17,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ProductPage"
-            android:label="@string/product_activity"
-            android:parentActivityName=".CategoryPage" >
+        <activity
+            android:name=".CategoryProduct"
+            android:label="Category Products"
+            android:parentActivityName=".CategoryPage">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".CategoryPage" />
+        </activity>
+        <activity
+            android:name=".ProductActivity"
+            android:label="Product Page"
+            android:parentActivityName=".CategoryProduct">
         </activity>
     </application>
 

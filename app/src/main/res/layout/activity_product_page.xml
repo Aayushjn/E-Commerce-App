@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context=".CategoryProduct"
 
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="#e6e6e6"
     android:orientation="vertical"
-    android:padding="1dp" >
+    android:padding="1dp">
 
     <android.support.v7.widget.Toolbar
         android:id="@+id/productToolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
         android:background="@android:color/holo_blue_dark"
-        android:elevation="4dp"
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
@@ -23,7 +22,11 @@
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:columnWidth="130dp"
-        android:numColumns="auto_fit"
+        android:background="#5050a0"
+        android:verticalSpacing="2dp"
+        android:horizontalSpacing="2dp"
+        android:padding="2dp"
+        android:numColumns="2"
         android:stretchMode="columnWidth"
         android:gravity="center" />
 </LinearLayout>

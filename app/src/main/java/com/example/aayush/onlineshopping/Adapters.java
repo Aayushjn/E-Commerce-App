@@ -25,10 +25,10 @@ class GridViewHolder{
 
 public interface Adapters{
     class CustomListAdapter extends BaseAdapter{
-        Context context;
-        String[] categories;
-        int[] icons;
-        LayoutInflater inflater;
+        final Context context;
+        final String[] categories;
+        final int[] icons;
+        final LayoutInflater inflater;
 
         public CustomListAdapter(Context applicationContext, String[] categories, int[] icons){
             this.context = applicationContext;
@@ -70,11 +70,11 @@ public interface Adapters{
     }
 
     class CustomGridAdapter extends BaseAdapter{
-        private Context context;
-        String[] productTitle;
-        String[] productPrice;
-        int[] images;
-        LayoutInflater inflater;
+        private final Context context;
+        final String[] productTitle;
+        final String[] productPrice;
+        final int[] images;
+        final LayoutInflater inflater;
 
         public CustomGridAdapter(Context applicationContext, String[] productTitle, String[] productPrice, int[] images){
             this.context = applicationContext;

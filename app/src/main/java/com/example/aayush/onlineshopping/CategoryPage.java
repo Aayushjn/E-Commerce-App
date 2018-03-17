@@ -12,12 +12,13 @@ import com.example.aayush.onlineshopping.Adapters.CustomListAdapter;
 
 public class CategoryPage extends AppCompatActivity {
     public static final String PRODUCT = "com.example.aayush.onlineshopping.extra.PRODUCT";
+    public static final String PRODUCT_IMAGE =
+            "com.example.aayush.onlineshopping.extra.PRODUCT_IMAGE";
 
-    ListView categoryList;
-    String[] categories = {"Clothing", "Consumer Electronics", "Appliances", "Furniture", "Books",
-            "Food"};
-    int[] icons = {R.drawable.clothing, R.drawable.consumer_electronics, R.drawable.appliances,
-            R.drawable.furniture, R.drawable.book, R.drawable.food};
+    private final String[] categories = {"Clothing", "Consumer Electronics", "Appliances",
+            "Furniture", "Books", "Food"};
+    private final int[] icons = {R.drawable.clothing, R.drawable.consumer_electronics,
+            R.drawable.appliances, R.drawable.furniture, R.drawable.book, R.drawable.food};
 
 
 
@@ -30,15 +31,16 @@ public class CategoryPage extends AppCompatActivity {
         toolbar.setTitle("Categories");
         setSupportActionBar(toolbar);
 
-        categoryList = findViewById(R.id.categoryList);
+        ListView categoryList = findViewById(R.id.categoryList);
         CustomListAdapter listAdapter = new CustomListAdapter(getApplicationContext(), categories,
                 icons);
         categoryList.setAdapter(listAdapter);
         categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                Intent intent = new Intent(getApplicationContext(), ProductPage.class);
+                Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
                 intent.putExtra(PRODUCT, categories[position]);
+                intent.putExtra(PRODUCT_IMAGE, icons[position]);
                 startActivity(intent);
             }
         });
