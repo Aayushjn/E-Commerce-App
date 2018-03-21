@@ -19,12 +19,11 @@ public interface Objects {
         String size;
         Vendor vendor;
 
-        Product(long productId, String name, String category, String color, String size,
+        Product(long productId, String name, String category, String size,
                 int quantity, float cost, Vendor vendor){
             this.productId = productId;
             this.name = name;
             this.category = category;
-            this.color = color;
             this.size = size;
             this.quantity = quantity;
             this.cost = cost;
