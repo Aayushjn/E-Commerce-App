@@ -3,8 +3,11 @@ package dbs;
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
+import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import android.support.annotation.NonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
@@ -14,10 +17,11 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
  */
 
 public class Entities {
-    @Entity(foreignKeys = @ForeignKey(entity = VendorEntity.class, parentColumns = "id",
-            childColumns = "vendId", onDelete = CASCADE))
+    @Entity(indices = {@Index(value = {"pId", "vendor"}, unique = true)},
+            foreignKeys = @ForeignKey(entity = VendorEntity.class, parentColumns = "id",
+            childColumns = "vendor", onDelete = CASCADE))
     class ProductEntity{
-        @PrimaryKey
+        @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "pId")
         private int pId;
 
@@ -49,18 +53,44 @@ public class Entities {
             this.size = size;
             this.vendId = vendId;
         }
+
+        public int getpId() {
+            return pId;
+        }
+
+        public float getCost() {
+            return cost;
+        }
+
+        public int getQuantity() {
+            return quantity;
+        }
+
+        public String getCategory() {
+            return category;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getSize() {
+            return size;
+        }
+
+        public int getVendId() {
+            return vendId;
+        }
     }
 
     @Entity
     class PersonEntity {
-        @PrimaryKey
-        @ColumnInfo(name = "id")
-        private int id;
-
         @ColumnInfo(name = "address")
         private String address;
 
+        @PrimaryKey
         @ColumnInfo(name = "emailId")
+        @NonNull
         private String emailId;
 
         @ColumnInfo(name = "name")
@@ -69,55 +99,128 @@ public class Entities {
         @ColumnInfo(name = "password")
         private String password;
 
-        PersonEntity(int id, String address, String emailId, String name, String password) {
-            this.id = id;
+        @ColumnInfo(name = "salt")
+        private String salt;
+
+        PersonEntity(String address, String emailId, String name, String password, String salt) {
             this.address = address;
             this.emailId = emailId;
             this.name = name;
             this.password = password;
+            this.salt = salt;
+        }
+
+        public String getAddress() {
+            return address;
+        }
+
+        public String getEmailId() {
+            return emailId;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public String getPassword() {
+            return password;
+        }
+
+        public String getSalt() {
+            return salt;
         }
     }
 
 
-    @Entity(foreignKeys = @ForeignKey(entity = ProductEntity.class, parentColumns = "pId",
-            childColumns = "prodId", onDelete = CASCADE))
+    @Entity(indices = @Index(value = {"id"}, unique = true))
     class UserEntity extends PersonEntity {
-        UserEntity(int id, String address, String emailId, String name, String password) {
-            super(id, address, emailId, name, password);
+        @ColumnInfo(name = "id")
+        private int id;
+
+        UserEntity(int id, String address, String emailId, String name, String password,
+                   String salt) {
+            super(address, emailId, name, password, salt);
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
         }
     }
 
-    @Entity(foreignKeys = @ForeignKey(entity = ProductEntity.class, parentColumns = "pId",
-            childColumns = "prodIds", onDelete = CASCADE))
+    @Entity(indices = {@Index(value = {"id"}, unique = true)},
+            foreignKeys = @ForeignKey(entity = ProductEntity.class, parentColumns = "pId",
+            childColumns = "product", onDelete = CASCADE))
     class VendorEntity extends PersonEntity{
-        @ColumnInfo(name = "product")
-        private List<Integer> prodIds;
+        @ColumnInfo(name = "id")
+        private int id;
 
-        VendorEntity(int id, String address, String emailId, String name, String password) {
-            super(id, address, emailId, name, password);
+        @ColumnInfo(name = "product")
+        private ArrayList<Integer> prodIds;
+
+        VendorEntity(int id, String address, String emailId, String name, String password,
+                     String salt) {
+            super(address, emailId, name, password, salt);
+            this.id = id;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public List<Integer> getProdIds() {
+            return prodIds;
         }
     }
 
-    @Entity(foreignKeys = @ForeignKey(entity = PersonEntity.class, parentColumns = "id",
-            childColumns = "id", onDelete = CASCADE))
+    @Entity(indices = {@Index(value = {"id", "id"}, unique = true)},
+            foreignKeys = {@ForeignKey(entity = UserEntity.class, parentColumns = "id",
+                    childColumns = "id", onDelete = CASCADE),
+                    @ForeignKey(entity = VendorEntity.class, parentColumns = "id",
+                            childColumns = "id", onDelete = CASCADE)})
     class PaymentEntity{
         @ColumnInfo(name = "id")
         private int id;
 
+        @PrimaryKey
         @ColumnInfo(name = "card")
         private long cardNumber;
 
         @ColumnInfo(name = "pin")
-        private String cvv;
+        private String pin;
 
         @ColumnInfo(name = "amount")
         private float amount;
 
-        PaymentEntity(int id, long cardNumber, String cvv, float amount) {
+        @ColumnInfo(name = "salt")
+        private String salt;
+
+        PaymentEntity(int id, long cardNumber, String pin, float amount, String salt) {
             this.id = id;
             this.cardNumber = cardNumber;
-            this.cvv = cvv;
+            this.pin = pin;
             this.amount = amount;
+            this.salt = salt;
+        }
+
+        public int getId() {
+            return id;
+        }
+
+        public long getCardNumber() {
+            return cardNumber;
+        }
+
+        public String getPin() {
+            return pin;
+        }
+
+        public float getAmount() {
+            return amount;
+        }
+
+        public String getSalt() {
+            return salt;
         }
     }
 }
