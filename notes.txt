@@ -1,0 +1,21 @@
+In build.gradle(app)
+   in dependencies function include:
+        compile 'com.android.support:cardview-v7:26.1.0'
+        compile 'com.android.support:recyclerview-v7:26.1.0'
+
+Actvities:
+CartActivity (activity_cart) - to display the cart items as a list
+ItemActivity (activity_item) - to  display the details of a selected item
+ItemDisplayActivity (activity_item_display) - to display the items in a grid when a particular category is selected
+MainScreen(activity_main_screen) - to display the categories and has a menu (logout and cart)
+
+Java Classes:
+Item - attributes of an item (setter and getter functions)
+RecyclerViewAdapter - for the display of items when a category is selected
+RVCartAdapter - for the display of items in the user's cart
+
+XML Files:
+cardview_cart_item - template for the item displayed in the user's cart
+cardview_item_book - template for the item displayed when an item is selected
+
+
