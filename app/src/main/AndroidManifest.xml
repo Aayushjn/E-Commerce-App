@@ -10,13 +10,38 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".CategoryPage">
+        <activity android:name=".WelcomeScreen">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".LoginScreen"
+            android:label="Login Screen"
+            android:parentActivityName=".WelcomeScreen">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".WelcomeScreen" />
+        </activity>
+        <activity
+            android:name=".RegistrationScreen"
+            android:label="Registration Screen"
+            android:parentActivityName=".LoginScreen">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LoginScreen" />
+        </activity>
+        <activity
+            android:name=".CardDetails"
+            android:label="Card Details"
+            android:parentActivityName=".RegistrationScreen">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".RegistrationScreen" />
+        </activity>
+        <activity android:name=".CategoryPage" />
         <activity
             android:name=".CategoryProduct"
             android:label="Category Products"
@@ -28,8 +53,9 @@
         <activity
             android:name=".ProductActivity"
             android:label="Product Page"
-            android:parentActivityName=".CategoryProduct">
-        </activity>
+            android:parentActivityName=".CategoryProduct" />
+        <activity android:name=".PaymentAuth" />
+        <activity android:name=".VendorItemPage"></activity>
     </application>
 
 </manifest>

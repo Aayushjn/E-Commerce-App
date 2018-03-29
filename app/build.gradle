@@ -10,8 +10,8 @@ android {
         versionName "1.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
-        javaCompileOptions{
-            annotationProcessorOptions{
+        javaCompileOptions {
+            annotationProcessorOptions {
                 arguments = ["room.schemaLocation": "C:/Users/aayus/AndroidStudioProjects/OnlineShopping/schemas".toString()]
             }
         }
@@ -35,4 +35,6 @@ dependencies {
     annotationProcessor 'android.arch.persistence.room:compiler:1.0.0'
     testImplementation 'android.arch.persistence.room:testing:1.0.0'
     compile 'com.google.code.gson:gson:2.6.2'
+    compile 'com.android.support:cardview-v7:26.1.0'
+    compile 'com.android.support:recyclerview-v7:26.1.0'
 }

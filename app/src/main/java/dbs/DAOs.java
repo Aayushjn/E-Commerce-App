@@ -7,6 +7,7 @@ import android.arch.persistence.room.OnConflictStrategy;
 import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 
+import java.util.AbstractQueue;
 import java.util.ArrayList;
 
 /**
@@ -22,8 +23,14 @@ public class DAOs {
         @Query("SELECT * FROM cards WHERE card = :cardNo")
         Entities.PaymentEntity getCardDetailsByCardNumber(long cardNo);
 
+        @Query("SELECT amount FROM cards WHERE id = :id")
+        float getAmountById(int id);
+
+        @Query("UPDATE cards SET amount = :amount WHERE id = :id")
+        void updateAmountById(float amount, int id);
+
         @Insert(onConflict = OnConflictStrategy.REPLACE)
-        void insertCard(Entities.PaymentEntity card);
+        int insertCard(Entities.PaymentEntity card);
 
         @Update
         void updateCard(Entities.PaymentEntity card);
@@ -37,11 +44,14 @@ public class DAOs {
         @Query("SELECT * FROM products WHERE pId = :pId")
         Entities.ProductEntity getProductById(int pId);
 
+        @Query("SELECT * FROM products WHERE name = :name AND category = :category")
+        Entities.ProductEntity getProductByCategory(String name, String category);
+
         @Query("SELECT vendor FROM products WHERE pId = :pId")
         int getVendorIdByProductId(int pId);
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
-        void insertProduct(Entities.ProductEntity product);
+        int insertProduct(Entities.ProductEntity product);
 
         @Update(onConflict = OnConflictStrategy.REPLACE)
         void updateProduct(Entities.ProductEntity product);
@@ -54,6 +64,9 @@ public class DAOs {
     public interface UserDAO{
         @Query("SELECT * FROM users WHERE id = :id")
         Entities.UserEntity getUserById(int id);
+
+        @Query("SELECT * FROM users WHERE emailId = :emailId")
+        Entities.UserEntity getUserByEmail(String emailId);
 
         @Query("SELECT cards.* FROM cards INNER JOIN users ON users.id = cards.id WHERE" +
                 " users.id = :id")
@@ -73,7 +86,7 @@ public class DAOs {
         int checkSufficientFunds(int id);
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
-        void insertUser(Entities.UserEntity user);
+        int insertUser(Entities.UserEntity user);
 
         @Update(onConflict = OnConflictStrategy.REPLACE)
         void updateUser(Entities.UserEntity user);
@@ -90,6 +103,9 @@ public class DAOs {
         @Query("SELECT * FROM cards WHERE vendors.id = :id AND cards.id = :id")
         Entities.PaymentEntity getPaymentDetailsById(int id);
 
+        @Query("SELECT * FROM vendors WHERE emailId = :emailId")
+        Entities.VendorEntity getVendorByEmail(String emailId);
+
         @Query("SELECT 1 FROM vendors WHERE id = :id")
         int isRegistered(int id);
 
@@ -103,7 +119,7 @@ public class DAOs {
         int isUnique(String emailId);
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
-        void insertVendor(Entities.VendorEntity vendor);
+        int insertVendor(Entities.VendorEntity vendor);
 
         @Update(onConflict = OnConflictStrategy.REPLACE)
         void updateVendor(Entities.VendorEntity vendor);

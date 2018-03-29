@@ -20,7 +20,7 @@ public class Entities {
     @Entity(tableName = "products", indices = {@Index(value = {"pId", "vendor"}, unique = true)},
             foreignKeys = @ForeignKey(entity = VendorEntity.class, parentColumns = "id",
             childColumns = "vendor", onDelete = CASCADE))
-    class ProductEntity{
+    public class ProductEntity{
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "pId")
         private int pId;
@@ -48,7 +48,6 @@ public class Entities {
             this.pId = pId;
             this.cost = cost;
             this.quantity = quantity;
-
             this.category = category;
             this.name = name;
             this.size = size;
@@ -178,7 +177,7 @@ public class Entities {
 
 
     @Entity(tableName = "users", indices = @Index(value = {"id"}, unique = true))
-    class UserEntity extends PersonEntity {
+    public class UserEntity extends PersonEntity {
         @ColumnInfo(name = "id")
         private int id;
 
@@ -196,7 +195,7 @@ public class Entities {
     @Entity(tableName = "vendors", indices = {@Index(value = {"id"}, unique = true)},
             foreignKeys = @ForeignKey(entity = ProductEntity.class, parentColumns = "pId",
             childColumns = "product", onDelete = CASCADE))
-    class VendorEntity extends PersonEntity{
+    public class VendorEntity extends PersonEntity{
         @ColumnInfo(name = "id")
         private int id;
         @ColumnInfo(name = "product")
@@ -230,7 +229,7 @@ public class Entities {
                     childColumns = "id", onDelete = CASCADE),
                     @ForeignKey(entity = VendorEntity.class, parentColumns = "id",
                             childColumns = "id", onDelete = CASCADE)})
-    class PaymentEntity{
+    public static class PaymentEntity{
         @ColumnInfo(name = "id")
         private int id;
 
@@ -242,11 +241,11 @@ public class Entities {
         private String pin;
 
         @ColumnInfo(name = "amount")
-        private float amount;
+        public float amount;
         @ColumnInfo(name = "salt")
         private String salt;
 
-        PaymentEntity(int id, long cardNumber, String pin, float amount, String salt) {
+        public PaymentEntity(int id, long cardNumber, String pin, float amount, String salt) {
             this.id = id;
             this.cardNumber = cardNumber;
             this.pin = pin;

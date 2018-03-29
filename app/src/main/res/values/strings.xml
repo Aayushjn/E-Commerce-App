@@ -9,4 +9,27 @@
     <string name="category">Category</string>
     <string name="cart_add">Add to Cart</string>
     <string name="cart_button">Cart Button</string>
+    <string name="vendor_login">VENDOR LOGIN</string>
+    <string name="customer_login">CUSTOMER LOGIN</string>
+    <string name="marche">marché</string>
+    <string name="username">Username</string>
+    <string name="password">Password</string>
+    <string name="register">REGISTER</string>
+    <string name="login">LOGIN</string>
+    <string name="email_id">Email Id</string>
+    <string name="name">Name</string>
+    <string name="address">Address</string>
+    <string name="repeat_password">Repeat Password</string>
+    <string name="security_pin">Security PIN</string>
+    <string name="repeat_pin">Repeat PIN</string>
+    <string name="credit_card_number">Credit Card Number</string>
+    <string name="submit_card_details">SUBMIT CARD DETAILS</string>
+    <string name="pay">PAY</string>
+    <string name="enter_pin">Enter PIN</string>
+    <string name="cancel">CANCEL</string>
+    <string name="super_secure_payment_gateway">SUPER SECURE PAYMENT GATEWAY</string>
+    <string name="amount">Amount</string>
+    <string name="quantity">Quantity</string>
+    <string name="update_quantity">UPDATE QUANTITY</string>
+    <string name="delete_product">DELETE PRODUCT</string>
 </resources>
