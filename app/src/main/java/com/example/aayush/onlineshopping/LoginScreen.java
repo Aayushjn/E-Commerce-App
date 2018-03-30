@@ -41,7 +41,7 @@ public class LoginScreen extends AppCompatActivity {
             Databases.VendorDatabase db = Databases.VendorDatabase.getVendorDatabase(current);
             DAOs.VendorDAO vendorAcc;
             vendorAcc = db.vendorDAO();
-            Entities.VendorEntity vendor = null;
+            Entities.VendorEntity vendor;
             vendor = vendorAcc.getVendorByEmail(emailId);
             if(vendor == null){
                 errorMessage = "Invalid Username/Password";
@@ -76,7 +76,7 @@ public class LoginScreen extends AppCompatActivity {
                     errorMessage = "Invalid Username/Password";
                 }
                 else{
-                    Intent nextPage = new Intent(this, UserCatagory.class);
+                    Intent nextPage = new Intent(this, CategoryPage.class);
                     int vendID = user.getId();
                     nextPage.putExtra("vendID", vendID);
                     startActivity(nextPage);

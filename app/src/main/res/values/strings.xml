@@ -47,4 +47,6 @@
     <string name="item_name">Item Name</string>
     <string name="item_category">Item Category</string>
     <string name="remove">REMOVE</string>
+    <string name="cart">Cart</string>
+    <string name="logout">Logout</string>
 </resources>

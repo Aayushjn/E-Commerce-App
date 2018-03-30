@@ -74,7 +74,7 @@ public class CategoryPage extends AppCompatActivity {
         }
     }
 
-    /*@Override
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu, menu);
         return super.onCreateOptionsMenu(menu);
@@ -86,12 +86,11 @@ public class CategoryPage extends AppCompatActivity {
             case R.id.menu_logout:
                 Toast.makeText(this, "Logging out!", Toast.LENGTH_SHORT).show();
                 finish();
-                // TODO after logout go to login activity
-                //startActivity(new Intent(MainScreen.this, MainActivity.class));
+                startActivity(new Intent(CategoryPage.this, LoginScreen.class));
                 break;
             case R.id.menu_cart:
                 startActivity(new Intent(this, CartActivity.class));
         }
         return super.onOptionsItemSelected(item);
-    }*/
+    }
 }

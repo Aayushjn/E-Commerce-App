@@ -32,7 +32,7 @@ public interface Objects {
     }
 
     class Cart{
-        List<Item> productList;
+        List<Product> productList;
         float totalCost;
 
         public Cart(){
@@ -40,7 +40,7 @@ public interface Objects {
             totalCost = 0;
         }
 
-        void addProduct(Item product){
+        void addProduct(Product product){
             productList.add(product);
             totalCost += product.cost;
         }

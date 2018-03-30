@@ -21,7 +21,7 @@ public class WelcomeScreen extends AppCompatActivity {
 
     public void customerClick(View view) {
         //TODO:get information for customer login page
-        Intent customerIntent=new Intent(this, LoginScreen.class);
+        Intent customerIntent = new Intent(this, LoginScreen.class);
         customerIntent.putExtra("source",0);
         startActivity(customerIntent);
     }

@@ -56,7 +56,7 @@ public class PaymentAuth extends AppCompatActivity {
 
         Entities.UserEntity user = userAcc.getUserById(userId);
         Entities.ProductEntity prod;
-        Entities.VendorEntity vendor = null;
+        Entities.VendorEntity vendor;
 
         int cartQuantity = 0;
         if (products != null) {

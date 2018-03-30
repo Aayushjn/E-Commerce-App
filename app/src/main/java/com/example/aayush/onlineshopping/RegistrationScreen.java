@@ -68,7 +68,7 @@ public class RegistrationScreen extends AppCompatActivity {
                 vendor.setPassword(hashedPW);
                 vendor.setSalt(new String(salt));
                 int id = vendorAcc.insertVendor(vendor);
-                Intent moveOn=new Intent(this, CardDetails.class);
+                Intent moveOn = new Intent(this, CardDetails.class);
                 moveOn.putExtra("id", id);
                 startActivity(moveOn);
             }
