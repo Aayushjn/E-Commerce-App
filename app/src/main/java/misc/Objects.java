@@ -1,4 +1,4 @@
-package com.example.aayush.onlineshopping;
+package misc;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,15 +32,15 @@ public interface Objects {
     }
 
     class Cart{
-        List<Product> productList;
+        List<Item> productList;
         float totalCost;
 
-        Cart(){
+        public Cart(){
             productList = new ArrayList<>();
             totalCost = 0;
         }
 
-        void addProduct(Product product){
+        void addProduct(Item product){
             productList.add(product);
             totalCost += product.cost;
         }

@@ -82,6 +82,7 @@
         android:textColor="@android:color/background_dark"
         android:textSize="20sp"
         android:textStyle="bold"
+        android:onClick="registerClick"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="parent"

@@ -1,106 +1,137 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#e4d5a1"
     tools:context="com.example.aayush.onlineshopping.ProductActivity">
 
-    <android.support.v7.widget.Toolbar
-        android:id="@+id/productToolbar"
+    <android.support.v4.widget.NestedScrollView
         android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:background="@android:color/holo_blue_dark"
-        android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
-        app:popupTheme="@style/ThemeOverlay.AppCompat.Light" >
+        android:layout_height="440dp"
+        android:layout_marginTop="10dp"
+        android:padding="10dp">
 
-        <ImageView
-            android:id="@+id/cartIcon"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:src="@drawable/cart"
-            android:contentDescription="@string/cart_button"
-            android:clickable="true"
-            android:focusable="true"
-            android:layout_gravity="end" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    </android.support.v7.widget.Toolbar>
+            <ImageView
+                android:id="@+id/productImage"
+                android:layout_width="270dp"
+                android:layout_height="270dp"
+                android:layout_gravity="center"
+                android:background="#2d2d2d"
+                android:scaleType="centerCrop"
+                android:contentDescription="@string/icon" />
 
-    <ImageView
-        android:id="@+id/product"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginEnd="8dp"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:contentDescription="@string/product_image"
-        android:padding="5dp"
-        android:src="@drawable/product"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+            <Button
+                android:id="@+id/cartButton"
+                android:layout_width="150dp"
+                android:layout_height="50dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/add_to_cart"
+                android:onClick="addToCart" />
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|center_horizontal">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/titleText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="2dp"
-            android:layout_toLeftOf="@id/priceText"
-            android:layout_toStartOf="@id/priceText"
-            android:hint="@string/product_title"
-            android:ellipsize="end"
-            android:maxLines="1"
-            android:textColor="@android:color/black"
-            android:textSize="24sp" />
+                <TextView
+                    android:id="@+id/qtyTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="@string/quantity"
+                    android:textColor="@android:color/black" />
 
-        <TextView
-            android:id="@+id/priceText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignBottom="@+id/titleText"
-            android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:hint="@string/price"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+                <Spinner
+                    android:id="@+id/qtySpinner"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true" />
 
-        <TextView
-            android:id="@+id/categoryText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/titleText"
-            android:hint="@string/category"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+                <!-- <TextView
+                    android:id="@+id/tv_quantity_selected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="1"/> -->
+            </LinearLayout>
 
-        <TextView
-            android:id="@+id/descriptionText"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_below="@id/categoryText"
-            android:hint="@string/description"
-            android:textColor="@android:color/black"
-            android:textSize="18sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
 
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/sizeTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="@string/size"
+                    android:textColor="@android:color/black" />
 
-    <Button
-        android:id="@+id/button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/cart_add" />
+                <Spinner
+                    android:id="@+id/sizeSpinner"
+                    android:layout_marginTop="10dp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:clickable="true"
+                    android:focusable="true" />
 
+                <!-- TextView
+                    android:id="@+id/tv_size_selected"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:text="32"/> -->
+            </LinearLayout>
+
+            <TextView
+                android:id="@+id/productName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/item_name"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/category"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/item_category"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+            <TextView
+                android:id="@+id/price"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="10dp"
+                android:text="@string/item_price"
+                android:textColor="@android:color/black"
+                android:textSize="18sp"
+                android:textStyle="bold" />
+
+        </LinearLayout>
+    </android.support.v4.widget.NestedScrollView>
 </LinearLayout>

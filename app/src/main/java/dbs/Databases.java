@@ -13,7 +13,7 @@ import android.content.Context;
 
 public class Databases {
     @Database(entities = {Entities.UserEntity.class}, version = 1)
-    abstract static class UserDatabase extends RoomDatabase{
+    public abstract static class UserDatabase extends RoomDatabase{
         private static UserDatabase INSTANCE;
 
         public abstract DAOs.UserDAO userDAO();
@@ -33,7 +33,7 @@ public class Databases {
 
     @Database(entities = {Entities.VendorEntity.class, Entities.ProductEntity.class}, version = 1)
     @TypeConverters({Converters.class})
-    abstract static class VendorDatabase extends RoomDatabase{
+    public abstract static class VendorDatabase extends RoomDatabase{
         private static VendorDatabase INSTANCE;
 
         public abstract DAOs.VendorDAO vendorDAO();
@@ -54,7 +54,7 @@ public class Databases {
     @Database(entities = {Entities.PaymentEntity.class, Entities.VendorEntity.class,
             Entities.UserEntity.class, Entities.ProductEntity.class}, version = 1)
     @TypeConverters({Converters.class})
-    abstract static class PaymentDatabase extends RoomDatabase{
+    public abstract static class PaymentDatabase extends RoomDatabase{
         private static PaymentDatabase INSTANCE;
 
         public abstract DAOs.PaymentDAO paymentDAO();
@@ -73,7 +73,7 @@ public class Databases {
     }
 
     @Database(entities = {Entities.ProductEntity.class, Entities.VendorEntity.class}, version = 1)
-    abstract static class ProductDatabase extends RoomDatabase{
+    public abstract static class ProductDatabase extends RoomDatabase{
         private static ProductDatabase INSTANCE;
 
         public abstract DAOs.ProductDAO productDAO();

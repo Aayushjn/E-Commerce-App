@@ -25,7 +25,6 @@ public class LoginScreen extends AppCompatActivity {
     public void loginClick(View view){
         Context current = getApplicationContext();
         int source = extras.getInt("source");
-        Databases db;
 
         EditText email = findViewById(R.id.email);
         EditText loginPassword = findViewById(R.id.loginPassword);
@@ -39,9 +38,9 @@ public class LoginScreen extends AppCompatActivity {
         }
 
         if(source == 1){
-            db = Databases.getVendorDatabase(current);
+            Databases.VendorDatabase db = Databases.VendorDatabase.getVendorDatabase(current);
             DAOs.VendorDAO vendorAcc;
-            vendorAcc = db.getDAO();
+            vendorAcc = db.vendorDAO();
             Entities.VendorEntity vendor = null;
             vendor = vendorAcc.getVendorByEmail(emailId);
             if(vendor == null){
@@ -62,12 +61,12 @@ public class LoginScreen extends AppCompatActivity {
             }
         }
         else{
-            db = Databases.getUserDatabase(current);
+            Databases.UserDatabase db = Databases.UserDatabase.getUserDatabase(current);
             DAOs.UserDAO userAcc;
-            userAcc = db.getDAO();
+            userAcc = db.userDAO();
             Entities.UserEntity user = userAcc.getUserByEmail(emailId);
 
-            if(user==null){
+            if(user == null){
                 errorMessage = "Invalid Username/Password";
             }
             else{

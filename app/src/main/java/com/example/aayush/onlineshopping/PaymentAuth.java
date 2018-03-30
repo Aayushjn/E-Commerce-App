@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,24 +32,29 @@ public class PaymentAuth extends AppCompatActivity {
     }
 
     public void cancelPay(View view){
-        Intent back = new Intent(this,userHome.class);
+        Intent back = new Intent(this, CategoryPage.class);
         startActivity(back);
     }
 
     public void confirmPay(View view){
-        Databases paymentDB, vendorDB;
+        Databases.PaymentDatabase paymentDB;
+        Databases.VendorDatabase vendorDB;
+        Databases.UserDatabase userDB;
         DAOs.PaymentDAO payAcc;
         DAOs.VendorDAO vendAcc;
+        DAOs.UserDAO userAcc;
         Context current = getApplicationContext();
-        paymentDB = Databases.getPaymentDatabase(current);
-        vendorDB = Databases.getVendorDatabase(current);
-        payAcc = paymentDB.getDAO();
-        vendAcc = vendorDB.getDAO();
+        paymentDB = Databases.PaymentDatabase.getPaymentDatabase(current);
+        vendorDB = Databases.VendorDatabase.getVendorDatabase(current);
+        userDB = Databases.UserDatabase.getUserDatabase(current);
+        payAcc = paymentDB.paymentDAO();
+        vendAcc = vendorDB.vendorDAO();
+        userAcc = userDB.userDAO();
 
         ArrayList<Entities.ProductEntity> products = extras.getParcelableArrayList("cart");
-        int userID = extras.getInt("userID");
+        int userId = extras.getInt("userId");
 
-        Entities.UserEntity user = payAcc.getUserByID(userID);
+        Entities.UserEntity user = userAcc.getUserById(userId);
         Entities.ProductEntity prod;
         Entities.VendorEntity vendor = null;
 
@@ -58,12 +62,12 @@ public class PaymentAuth extends AppCompatActivity {
         if (products != null) {
             cartQuantity = products.size();
         }
-        float userBalance = payAcc.getAmountById(userID);
+        float userBalance = payAcc.getAmountById(userId);
         float cartValue = extras.getFloat("cartValue");
 
         if (userBalance < cartValue){
-            Intent exit = new Intent(this, UserHomepage.class);
-            exit.putExtra("userID", userID);
+            Intent exit = new Intent(this, CategoryPage.class);
+            exit.putExtra("userId", userId);
             Toast.makeText(current,"Insufficient Funds", Toast.LENGTH_LONG).show();
             startActivity(exit);
         }
@@ -77,11 +81,11 @@ public class PaymentAuth extends AppCompatActivity {
             vAmount += prod.getCost() * prod.getQuantity();
             payAcc.updateAmountById(vAmount, vendor.getId());
         }
-        payAcc.updateAmountById(uAmount, userID);
+        payAcc.updateAmountById(uAmount, userId);
 
         Toast.makeText(current,"PAYMENT COMPLETE", Toast.LENGTH_LONG).show();
-        Intent paymentDone = new Intent(this, UserHomepage.class);
-        paymentDone.putExtra("userID", userID);
+        Intent paymentDone = new Intent(this, CategoryPage.class);
+        paymentDone.putExtra("userId", userId);
         startActivity(paymentDone);
     }
 }

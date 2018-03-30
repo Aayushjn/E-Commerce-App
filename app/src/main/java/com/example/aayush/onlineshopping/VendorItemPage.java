@@ -34,11 +34,11 @@ public class VendorItemPage extends AppCompatActivity {
     }
 
     public void deleteProduct(View view){
-        Databases productDB;
+        Databases.ProductDatabase productDB;
         DAOs.ProductDAO productDAO;
         Context current = getApplicationContext();
-        productDB = Databases.getProductDatabase(current);
-        productDAO = productDB.getDAO();
+        productDB = Databases.ProductDatabase.getProductDatabase(current);
+        productDAO = productDB.productDAO();
 
         Entities.ProductEntity prod =
                 productDAO.getProductByCategory(extras.getString("productName"),
@@ -50,11 +50,11 @@ public class VendorItemPage extends AppCompatActivity {
     }
 
     public void updateQuantity(View view){
-        Databases productDB;
+        Databases.ProductDatabase productDB;
         DAOs.ProductDAO productDAO;
         Context current=getApplicationContext();
-        productDB = Databases.getProductDatabase(current);
-        productDAO = productDB.getDAO();
+        productDB = Databases.ProductDatabase.getProductDatabase(current);
+        productDAO = productDB.productDAO();
         Entities.ProductEntity prod =
                 productDAO.getProductByCategory(extras.getString("productName"),
                         extras.getString("productCatagory"));

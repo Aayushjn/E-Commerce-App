@@ -54,8 +54,16 @@
             android:name=".ProductActivity"
             android:label="Product Page"
             android:parentActivityName=".CategoryProduct" />
+        <activity
+            android:name=".CartActivity"
+            android:label="Cart Page"
+            android:parentActivityName=".ProductActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ProductActivity" />
+        </activity>
         <activity android:name=".PaymentAuth" />
-        <activity android:name=".VendorItemPage"></activity>
+        <activity android:name=".VendorItemPage" />
     </application>
 
 </manifest>

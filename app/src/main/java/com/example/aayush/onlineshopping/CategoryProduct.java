@@ -2,67 +2,56 @@ package com.example.aayush.onlineshopping;
 
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.os.Bundle;
-import android.view.View;
-import android.widget.AdapterView;
-import android.widget.GridView;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 
-import com.example.aayush.onlineshopping.Adapters.CustomGridAdapter;
+import java.util.ArrayList;
+
+import misc.Adapters;
+import misc.Item;
 
 public class CategoryProduct extends AppCompatActivity {
-    public static final String PRODUCT_IMAGE = "com.example.aayush.onlineshopping.PRODUCT_IMAGE";
-    public static final String CATEGORY = "com.example.aayush.onlineshopping.CATEGORY";
-    public static final String PRICE = "com.example.aayush.onlineshopping.PRICE";
-    public static final String TITLE = "com.example.aayush.onlineshopping.TITLE";
-
-    private final String[] categories = {"Clothing", "Consumer Electronics", "Appliances",
-            "Furniture", "Books", "Food"};
-    private final int[] icons = {R.drawable.clothing, R.drawable.consumer_electronics,
-            R.drawable.appliances, R.drawable.furniture, R.drawable.book, R.drawable.food};
-    private final String[] price = {"23.50", "25.00", "32.00", "30.00", "10.00", "20.50"};
+    ArrayList<Item> items_list;
+    Bundle extras = getIntent().getExtras();
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_page);
 
-        final Toolbar toolbar = findViewById(R.id.productToolbar);
+        items_list = new ArrayList<>();
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            toolbar.setTitle(extras.getString(CategoryPage.PRODUCT));
-            toolbar.setLogo(extras.getInt(CategoryPage.PRODUCT_IMAGE));
-        }
-        else{
-            toolbar.setTitle("Products");
-        }
+        int categoryFlag = extras.getInt("categoryFlag");
 
-        setSupportActionBar(toolbar);
-        if(getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        }
-        toolbar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getApplicationContext(), CategoryPage.class));
-            }
-        });
+        // TODO open a selected category's products db
+        // TODO run a for loop and add items to items_list (items_list.add(new Item(name, category, price, quantity, size, image));
 
-        final GridView productGrid = findViewById(R.id.productGrid);
-        final CustomGridAdapter gridAdapter = new CustomGridAdapter(getApplicationContext(), categories,
-                price, icons);
-        productGrid.setAdapter(gridAdapter);
-        productGrid.setOnItemClickListener(new AdapterView.OnItemClickListener(){
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                Intent intent = new Intent(getApplicationContext(), ProductActivity.class);
-                intent.putExtra(PRODUCT_IMAGE, icons[position]);
-                intent.putExtra(CATEGORY, categories[position]);
-                intent.putExtra(TITLE, categories[position]);
-                intent.putExtra(PRICE, price[position]);
-                startActivity(intent);
-            }
-        });
+        switch(categoryFlag){
+            case 1:
+                // TODO add clothes-products
+                break;
+            case 2:
+                // TODO add books-products
+                break;
+            case 3:
+                // TODO add appliances-products
+                break;
+            case 4:
+                // TODO add electronics-products
+                break;
+            case 5:
+                // TODO add furniture-products
+                break;
+            case 6:
+                // TODO add food-products
+                break;
+            default:
+                break;
+        }
+        RecyclerView rv = findViewById(R.id.rv_item_display_layout);
+        Adapters.RecyclerViewAdapter myAdapter = new Adapters.RecyclerViewAdapter(this, items_list);
+        rv.setLayoutManager(new GridLayoutManager(this, 3));
+        rv.setAdapter(myAdapter);
     }
 }

@@ -26,11 +26,11 @@ public class CardDetails extends AppCompatActivity {
     }
 
     public void submitCard(View view) throws NoSuchProviderException, NoSuchAlgorithmException {
-        Databases paymentDB;
+        Databases.PaymentDatabase paymentDB;
         DAOs.PaymentDAO payAcc;
         Context current = getApplicationContext();
-        paymentDB = Databases.getPaymentDatabase(current);
-        payAcc = paymentDB.getDAO();
+        paymentDB = Databases.PaymentDatabase.getPaymentDatabase(current);
+        payAcc = paymentDB.paymentDAO();
 
         int id = extras.getInt("id");
 

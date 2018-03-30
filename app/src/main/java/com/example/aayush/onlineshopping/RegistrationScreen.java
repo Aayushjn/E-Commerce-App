@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -30,10 +31,9 @@ public class RegistrationScreen extends AppCompatActivity {
         startActivity(goBack);
     }
 
-    protected void regClick() throws NoSuchProviderException, NoSuchAlgorithmException {
+    public void registerClick(View view) throws NoSuchProviderException, NoSuchAlgorithmException {
         int source = extras.getInt("source");
         Context current = getApplicationContext();
-        Databases db = null;
 
         String name, pw1, pw2, email, address, errorString;
         name = ((EditText)findViewById(R.id.name)).getText().toString();
@@ -49,8 +49,8 @@ public class RegistrationScreen extends AppCompatActivity {
 
         if(source == 1){
             DAOs.VendorDAO vendorAcc;
-            db = Databases.getVendorDatabase(current);
-            vendorAcc = db.getDAO();
+            Databases.VendorDatabase db = Databases.VendorDatabase.getVendorDatabase(current);
+            vendorAcc = db.vendorDAO();
             Entities.VendorEntity vendor = null;
 
             if(vendorAcc.isUnique(email) != 1){
@@ -75,8 +75,8 @@ public class RegistrationScreen extends AppCompatActivity {
         }
         else{
             DAOs.UserDAO userAcc;
-            db = Databases.getUserDatabase(current);
-            userAcc = db.getDAO();
+            Databases.UserDatabase db = Databases.UserDatabase.getUserDatabase(current);
+            userAcc = db.userDAO();
             Entities.UserEntity user = null;
 
             if(userAcc.isUnique(email) != 1){

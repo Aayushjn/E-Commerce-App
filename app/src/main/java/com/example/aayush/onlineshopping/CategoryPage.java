@@ -3,46 +3,95 @@ package com.example.aayush.onlineshopping;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.CardView;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
-import android.widget.ListView;
-
-import com.example.aayush.onlineshopping.Adapters.CustomListAdapter;
+import android.widget.Toast;
 
 public class CategoryPage extends AppCompatActivity {
-    public static final String PRODUCT = "com.example.aayush.onlineshopping.extra.PRODUCT";
-    public static final String PRODUCT_IMAGE =
-            "com.example.aayush.onlineshopping.extra.PRODUCT_IMAGE";
-
-    private final String[] categories = {"Clothing", "Consumer Electronics", "Appliances",
-            "Furniture", "Books", "Food"};
-    private final int[] icons = {R.drawable.clothing, R.drawable.consumer_electronics,
-            R.drawable.appliances, R.drawable.furniture, R.drawable.book, R.drawable.food};
-
-
+    public CardView clothes, books, appliances, electronics, furniture, food;
+    public int categoryFlag;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_page);
 
-        Toolbar toolbar = findViewById(R.id.categoryToolbar);
-        toolbar.setTitle("Categories");
-        setSupportActionBar(toolbar);
+        clothes = findViewById(R.id.clothing);
+        books = findViewById(R.id.books);
+        appliances = findViewById(R.id.appliances);
+        electronics = findViewById(R.id.electronics);
+        furniture = findViewById(R.id.furniture);
+        food = findViewById(R.id.food);
 
-        ListView categoryList = findViewById(R.id.categoryList);
-        CustomListAdapter listAdapter = new CustomListAdapter(getApplicationContext(), categories,
-                icons);
-        categoryList.setAdapter(listAdapter);
-        categoryList.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        clothes.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id){
-                Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
-                intent.putExtra(PRODUCT, categories[position]);
-                intent.putExtra(PRODUCT_IMAGE, icons[position]);
-                startActivity(intent);
+            public void onClick(View view) {
+                categoryFlag = 1;
             }
         });
+
+        books.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                categoryFlag = 2;
+            }
+        });
+
+        appliances.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                categoryFlag = 3;
+            }
+        });
+
+        electronics.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                categoryFlag = 4;
+            }
+        });
+
+        furniture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                categoryFlag = 5;
+            }
+        });
+
+        food.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                categoryFlag = 6;
+            }
+        });
+
+        if(categoryFlag >= 1 && categoryFlag <= 6){
+            Intent intent = new Intent(this, CategoryProduct.class);
+            intent.putExtra("categoryFlag", categoryFlag);
+            startActivity(intent);
+        }
     }
+
+    /*@Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.menu_logout:
+                Toast.makeText(this, "Logging out!", Toast.LENGTH_SHORT).show();
+                finish();
+                // TODO after logout go to login activity
+                //startActivity(new Intent(MainScreen.this, MainActivity.class));
+                break;
+            case R.id.menu_cart:
+                startActivity(new Intent(this, CartActivity.class));
+        }
+        return super.onOptionsItemSelected(item);
+    }*/
 }

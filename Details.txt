@@ -1,0 +1,38 @@
+XML files:
+	1. activity_welcome_screen
+	2. activity_login_screen
+	3. activity_registration_screen
+	4. activity_card_details
+	5. activity_vendor_item_page
+	6. activity_category_page
+	7. activity_product_page	(cardview_item is a helper)
+	8. activity_product
+	9. activity_cart		(cardview_cart_item is a helper)
+	10. activity_payment_auth
+
+Java files:
+	I. Activities
+		1. WelcomeScreen
+		2. LoginScreen
+		3. RegistrationScreen
+		4. CardDetails
+		5. VendorItemPage
+		6. CategoryPage		(User Homepage)
+		7. CategoryProduct
+		8. ProductActivity
+		9. CartActivity
+		10. PaymentAuth
+
+	II. Database Stuff
+		1. DAOs			(Queries)
+		2. Entities		(Tables)
+		3. Databases		(DB)
+		4. Converter		(For ArrayList<Integer>) -- Still under testing
+
+	III. Miscellaneous
+		1. Adapters		(RecyclerView stuff)
+		2. Item			(Spandana's implementation of a product) -- Used for loading items on activity_product.xml
+		3. Objects		(Mostly obsolete, can be removed later) -- Left only for cart purposes, if required
+		4. PasswordOps		(Salt and hashing)
+
+Activity flow is as numbered in both the XML files and the Java files

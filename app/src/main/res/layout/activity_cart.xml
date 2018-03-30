@@ -4,10 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
-    tools:context="com.example.aayush.onlineshopping.CategoryProduct">
-
+    tools:context="com.example.aayush.onlineshopping.CartActivity">
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_item_display_layout"
+        android:id="@+id/rv_cart_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 </LinearLayout>
