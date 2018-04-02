@@ -2,12 +2,18 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "e8bbc818f2980a5779c0d2cf942c5780",
+    "identityHash": "7ec724b88655b201dd825cb9812dd6d9",
     "entities": [
       {
         "tableName": "cards",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `card` INTEGER NOT NULL, `pin` TEXT, `amount` REAL NOT NULL, `salt` TEXT, PRIMARY KEY(`card`), FOREIGN KEY(`id`) REFERENCES `users`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`id`) REFERENCES `vendors`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`amount` REAL NOT NULL, `id` INTEGER NOT NULL, `card` INTEGER NOT NULL, `pin` TEXT, `salt` TEXT, PRIMARY KEY(`card`), FOREIGN KEY(`id`) REFERENCES `users`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`id`) REFERENCES `vendors`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
         "fields": [
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": true
+          },
           {
             "fieldPath": "id",
             "columnName": "id",
@@ -25,12 +31,6 @@
             "columnName": "pin",
             "affinity": "TEXT",
             "notNull": false
-          },
-          {
-            "fieldPath": "amount",
-            "columnName": "amount",
-            "affinity": "REAL",
-            "notNull": true
           },
           {
             "fieldPath": "salt",
@@ -298,7 +298,7 @@
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"e8bbc818f2980a5779c0d2cf942c5780\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"7ec724b88655b201dd825cb9812dd6d9\")"
     ]
   }
 }

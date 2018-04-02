@@ -9,9 +9,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Toast;
 
+import misc.Cart;
+
 public class CategoryPage extends AppCompatActivity {
     public CardView clothes, books, appliances, electronics, furniture, food;
     public int categoryFlag;
+
+    final Bundle extras = getIntent().getExtras();
+    final Cart cart = (Cart) (extras != null ? extras.getSerializable("cart") : null);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +75,9 @@ public class CategoryPage extends AppCompatActivity {
         if(categoryFlag >= 1 && categoryFlag <= 6){
             Intent intent = new Intent(this, CategoryProduct.class);
             intent.putExtra("categoryFlag", categoryFlag);
+            if(cart != null){
+                intent.putExtra("cart", cart);
+            }
             startActivity(intent);
         }
     }
@@ -89,7 +97,11 @@ public class CategoryPage extends AppCompatActivity {
                 startActivity(new Intent(CategoryPage.this, LoginScreen.class));
                 break;
             case R.id.menu_cart:
-                startActivity(new Intent(this, CartActivity.class));
+                Intent intent = new Intent(this, CartActivity.class);
+                if(cart != null){
+                    intent.putExtra("cart", cart);
+                }
+                startActivity(intent);
         }
         return super.onOptionsItemSelected(item);
     }

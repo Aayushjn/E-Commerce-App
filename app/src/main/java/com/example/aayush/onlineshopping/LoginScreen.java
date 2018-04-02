@@ -14,16 +14,19 @@ import dbs.Entities;
 import misc.PasswordOps;
 
 public class LoginScreen extends AppCompatActivity {
-    Bundle extras = getIntent().getExtras();
+    final Bundle extras = getIntent().getExtras();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
+        setTitle("Login");
     }
 
     public void loginClick(View view){
         Context current = getApplicationContext();
+
+        assert extras != null;
         int source = extras.getInt("source");
 
         EditText email = findViewById(R.id.email);
@@ -53,7 +56,7 @@ public class LoginScreen extends AppCompatActivity {
                     errorMessage = "Invalid Username/Password";
                 }
                 else{
-                    Intent nextPage=new Intent(this, VendorHomepage.class);
+                    Intent nextPage = new Intent(this, VendorHomepage.class);
                     int vendID = vendor.getId();
                     nextPage.putExtra("vendID",vendID);
                     startActivity(nextPage);

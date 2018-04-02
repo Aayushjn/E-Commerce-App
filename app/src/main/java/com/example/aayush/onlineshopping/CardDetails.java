@@ -17,7 +17,7 @@ import dbs.Entities;
 import misc.PasswordOps;
 
 public class CardDetails extends AppCompatActivity {
-    Bundle extras = getIntent().getExtras();
+    final Bundle extras = getIntent().getExtras();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +32,7 @@ public class CardDetails extends AppCompatActivity {
         paymentDB = Databases.PaymentDatabase.getPaymentDatabase(current);
         payAcc = paymentDB.paymentDAO();
 
+        assert extras != null;
         int id = extras.getInt("id");
 
         String pin1, pin2, errorString = null;
@@ -41,7 +42,7 @@ public class CardDetails extends AppCompatActivity {
         pin1 = ((EditText)findViewById(R.id.pin)).getText().toString();
         pin2 = ((EditText)findViewById(R.id.pinRepeat)).getText().toString();
 
-        if(Long.valueOf(cardNo) == null || pin1 == null || pin2 == null){
+        if((Long.valueOf(cardNo) == null) || (pin1 == null) || (pin2 == null)){
             errorString = "Fields Cannot be null";
         }
         else if(!pin1.equals(pin2)){

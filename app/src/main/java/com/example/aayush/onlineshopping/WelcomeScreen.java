@@ -14,13 +14,12 @@ public class WelcomeScreen extends AppCompatActivity {
     }
 
     public void vendorClick(View view){
-        Intent vendorIntent=new Intent(this, LoginScreen.class);
+        Intent vendorIntent = new Intent(this, LoginScreen.class);
         vendorIntent.putExtra("source",1);
         startActivity(vendorIntent);
     }
 
     public void customerClick(View view) {
-        //TODO:get information for customer login page
         Intent customerIntent = new Intent(this, LoginScreen.class);
         customerIntent.putExtra("source",0);
         startActivity(customerIntent);

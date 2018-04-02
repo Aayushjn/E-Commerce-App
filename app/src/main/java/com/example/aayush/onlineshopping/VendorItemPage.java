@@ -12,13 +12,14 @@ import dbs.Databases;
 import dbs.Entities;
 
 public class VendorItemPage extends AppCompatActivity {
-    Bundle extras = getIntent().getExtras();
+    final Bundle extras = getIntent().getExtras();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendor_item_page);
 
+        assert extras != null;
         String name = extras.getString("productName");
         String category = extras.getString("productCategory");
         float price = extras.getFloat("price");
@@ -40,8 +41,9 @@ public class VendorItemPage extends AppCompatActivity {
         productDB = Databases.ProductDatabase.getProductDatabase(current);
         productDAO = productDB.productDAO();
 
+        assert extras != null;
         Entities.ProductEntity prod =
-                productDAO.getProductByCategory(extras.getString("productName"),
+                productDAO.getProductByCategoryAndName(extras.getString("productName"),
                         extras.getString("productCategory"));
         productDAO.deleteProduct(prod);
         Intent reload = new Intent(this, VendorHomepage.class);
@@ -55,9 +57,11 @@ public class VendorItemPage extends AppCompatActivity {
         Context current=getApplicationContext();
         productDB = Databases.ProductDatabase.getProductDatabase(current);
         productDAO = productDB.productDAO();
+
+        assert extras != null;
         Entities.ProductEntity prod =
-                productDAO.getProductByCategory(extras.getString("productName"),
-                        extras.getString("productCatagory"));
+                productDAO.getProductByCategoryAndName(extras.getString("productName"),
+                        extras.getString("productCategory"));
         TextView quantity = findViewById(R.id.productQuantity);
         prod.setQuantity(Integer.parseInt(quantity.getText().toString()));
         productDAO.updateProduct(prod);

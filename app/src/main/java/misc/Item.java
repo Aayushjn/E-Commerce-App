@@ -3,14 +3,14 @@ package misc;
 public class Item {
     public String name;
     public String category;
-    public String price;
+    public float price;
     public int quantity;
     public int size;
     public int image;
 
     public Item() {}
 
-    public Item(String name, String category, String price, int quantity, int size, int image) {
+    public Item(String name, String category, float price, int quantity, int size, int image) {
         this.name = name;
         this.category = category;
         this.price = price;
@@ -28,7 +28,7 @@ public class Item {
     }
 
     public String getPrice() {
-        return price;
+        return String.valueOf(price);
     }
 
     public int getQuantity() {
@@ -51,7 +51,7 @@ public class Item {
         this.category = category;
     }
 
-    public void setPrice(String price) {
+    public void setPrice(float price) {
         this.price = price;
     }
 

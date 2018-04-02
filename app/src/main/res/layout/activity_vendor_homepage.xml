@@ -4,11 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:padding="8dp"
-    tools:context="com.example.aayush.onlineshopping.CartActivity"
+    tools:context="com.example.aayush.onlineshopping.VendorHomepage"
     android:orientation="vertical">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv_cart_layout"
+        android:id="@+id/rv_vendor_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
@@ -17,9 +17,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:src="@drawable/pay"
+        android:src="@drawable/add"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="proceedToPay"
+        android:onClick="addProduct"
         android:layout_margin="16dp" />
 </LinearLayout>

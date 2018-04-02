@@ -2,6 +2,7 @@ package misc;
 
 import android.content.Context;
 import android.content.Intent;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -22,16 +23,19 @@ import java.util.List;
 
 public interface Adapters{
     class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder> {
-        private Context current;
-        private List<Item> data;
+        private final Context current;
+        private final List<Item> data;
+        private final Cart cart;
 
-        public RecyclerViewAdapter(Context current, List<Item> data) {
+        public RecyclerViewAdapter(Context current, List<Item> data, Cart cart) {
             this.current = current;
             this.data = data;
+            this.cart = cart;
         }
 
+        @NonNull
         @Override
-        public CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             View view;
             LayoutInflater inflater = LayoutInflater.from(current);
             view = inflater.inflate(R.layout.cardview_item, parent,false);
@@ -39,7 +43,7 @@ public interface Adapters{
         }
 
         @Override
-        public void onBindViewHolder(final CustomViewHolder holder, final int position) {
+        public void onBindViewHolder(@NonNull final CustomViewHolder holder, final int position) {
             holder.itemName.setText(data.get(holder.getAdapterPosition()).getName());
             holder.itemPrice.setText(data.get(holder.getAdapterPosition()).getPrice());
             holder.itemImage.setImageResource(data.get(holder.getAdapterPosition()).getImage());
@@ -58,6 +62,7 @@ public interface Adapters{
                     intent.putExtra("size", data.get(holder.getAdapterPosition()).getSize());
                     intent.putExtra("image",
                             data.get(holder.getAdapterPosition()).getImage());
+                    intent.putExtra("cart", cart);
 
                     current.startActivity(intent);
                 }
@@ -70,10 +75,10 @@ public interface Adapters{
         }
 
         static class CustomViewHolder extends RecyclerView.ViewHolder {
-            TextView itemName;
-            TextView itemPrice;
-            ImageView itemImage;
-            CardView cardView;
+            final TextView itemName;
+            final TextView itemPrice;
+            final ImageView itemImage;
+            final CardView cardView;
 
             CustomViewHolder(View itemView){
                 super(itemView);
@@ -86,17 +91,18 @@ public interface Adapters{
     }
 
     class RVCartAdapter extends RecyclerView.Adapter<RVCartAdapter.CustomViewHolder> {
-
-        private Context current;
-        private List<Item> data;
+        private final Context current;
+        private final List<Item> data;
 
         public RVCartAdapter(Context current, List<Item> data) {
             this.current = current;
             this.data = data;
         }
 
+        @NonNull
         @Override
-        public RVCartAdapter.CustomViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public RVCartAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                                 int viewType) {
             View view;
             LayoutInflater inflater = LayoutInflater.from(current);
             view = inflater.inflate(R.layout.cardview_cart_item, parent, false);
@@ -104,7 +110,7 @@ public interface Adapters{
         }
 
         @Override
-        public void onBindViewHolder(final CustomViewHolder holder, final int position) {
+        public void onBindViewHolder(@NonNull final CustomViewHolder holder, final int position) {
             holder.itemName.setText(data.get(holder.getAdapterPosition()).getName());
             holder.itemCategory.setText(data.get(holder.getAdapterPosition()).getCategory());
             holder.itemPrice.setText(data.get(holder.getAdapterPosition()).getPrice());
@@ -135,16 +141,16 @@ public interface Adapters{
         }
 
         public static class CustomViewHolder extends RecyclerView.ViewHolder {
-            TextView itemName;
-            TextView itemCategory;
-            TextView itemPrice;
-            TextView itemSize;
-            TextView itemQty;
-            ImageView itemImage;
-            Button itemRemove;
-            CardView cardView;
+            final TextView itemName;
+            final TextView itemCategory;
+            final TextView itemPrice;
+            final TextView itemSize;
+            final TextView itemQty;
+            final ImageView itemImage;
+            final Button itemRemove;
+            final CardView cardView;
 
-            public CustomViewHolder(View itemView){
+            CustomViewHolder(View itemView){
                 super(itemView);
                 itemName = itemView.findViewById(R.id.tv_item_name);
                 itemCategory = itemView.findViewById(R.id.tv_item_category);
@@ -154,6 +160,58 @@ public interface Adapters{
                 itemImage = itemView.findViewById(R.id.iv_item_image);
                 itemRemove = itemView.findViewById(R.id.btn_remove_from_cart);
                 cardView = itemView.findViewById(R.id.cv_cart_item_layout);
+            }
+        }
+    }
+
+    class RVVendorAdapter extends RecyclerView.Adapter<RVVendorAdapter.CustomViewHolder> {
+        private final Context current;
+        private final List<String> data;
+
+        public RVVendorAdapter(Context current, List<String> data){
+            this.current = current;
+            this.data = data;
+        }
+
+        @NonNull
+        @Override
+        public RVVendorAdapter.CustomViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                                   int viewType) {
+            View view;
+            LayoutInflater inflater = LayoutInflater.from(current);
+            view = inflater.inflate(R.layout.cardview_vendor_categories, parent,false);
+            return new RVVendorAdapter.CustomViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(@NonNull final RVVendorAdapter.CustomViewHolder holder,
+                                     int position) {
+            holder.categoryName.setText(data.get(holder.getAdapterPosition()));
+            holder.cardView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(current, ProductActivity.class);
+
+                    intent.putExtra("category", data.get(holder.getAdapterPosition()));
+
+                    current.startActivity(intent);
+                }
+            });
+        }
+
+        @Override
+        public int getItemCount() {
+            return data.size();
+        }
+
+        static class CustomViewHolder extends RecyclerView.ViewHolder {
+            final TextView categoryName;
+            final CardView cardView;
+
+            CustomViewHolder(View itemView){
+                super(itemView);
+                categoryName = itemView.findViewById(R.id.tv_item_name);
+                cardView = itemView.findViewById(R.id.cv_layout);
             }
         }
     }

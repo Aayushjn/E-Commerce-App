@@ -62,8 +62,31 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ProductActivity" />
         </activity>
-        <activity android:name=".PaymentAuth" />
-        <activity android:name=".VendorItemPage" />
+        <activity
+            android:name=".PaymentAuth"
+            android:label="Payment Authentication"
+            android:parentActivityName=".CartActivity">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".CartActivity" />
+        </activity>
+        <activity
+            android:name=".VendorHomepage"
+            android:label="Vendor Homepage"
+            android:parentActivityName=".LoginScreen">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".LoginScreen" />
+        </activity>
+        <activity
+            android:name=".VendorItemPage"
+            android:label="Vendor Item Page"
+            android:parentActivityName=".VendorHomepage">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".VendorHomepage" />
+        </activity>
+        <activity android:name=".AddProduct"></activity>
     </application>
 
 </manifest>

@@ -26,7 +26,7 @@
                 android:contentDescription="@string/icon" />
 
             <Button
-                android:id="@+id/cartButton"
+                android:id="@+id/addToCartButton"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:layout_marginTop="10dp"

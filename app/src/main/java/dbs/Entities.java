@@ -5,10 +5,10 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
+import android.arch.persistence.room.TypeConverter;
 import android.support.annotation.NonNull;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
@@ -19,8 +19,8 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
 public class Entities {
     @Entity(tableName = "products", indices = {@Index(value = {"pId", "vendor"}, unique = true)},
             foreignKeys = @ForeignKey(entity = VendorEntity.class, parentColumns = "id",
-            childColumns = "vendor", onDelete = CASCADE))
-    public class ProductEntity{
+                    childColumns = "vendor", onDelete = CASCADE))
+    public static class ProductEntity {
         @PrimaryKey(autoGenerate = true)
         @ColumnInfo(name = "pId")
         private int pId;
@@ -112,7 +112,7 @@ public class Entities {
     }
 
     @Entity
-    class PersonEntity {
+    static class PersonEntity {
         @ColumnInfo(name = "address")
         private String address;
         @PrimaryKey
@@ -126,7 +126,8 @@ public class Entities {
         @ColumnInfo(name = "salt")
         private String salt;
 
-        PersonEntity(String address, String emailId, String name, String password, String salt) {
+        PersonEntity(String address, @NonNull String emailId, String name, String password,
+                     String salt) {
             this.address = address;
             this.emailId = emailId;
             this.name = name;
@@ -142,6 +143,7 @@ public class Entities {
             this.address = address;
         }
 
+        @NonNull
         public String getEmailId() {
             return emailId;
         }
@@ -177,32 +179,56 @@ public class Entities {
 
 
     @Entity(tableName = "users", indices = @Index(value = {"id"}, unique = true))
-    public class UserEntity extends PersonEntity {
+    public static class UserEntity extends PersonEntity {
+        static int counter = 0;
+
         @ColumnInfo(name = "id")
         private int id;
 
-        UserEntity(int id, String address, String emailId, String name, String password,
-                   String salt) {
+        public UserEntity(){
+            super("", "", "", "", "");
+            setId(++counter);
+        }
+
+        public UserEntity(int id, String address, String emailId, String name, String password,
+                          String salt) {
             super(address, emailId, name, password, salt);
             this.id = id;
+        }
+
+        public static int getCounter() {
+            return counter;
+        }
+
+        public static void setCounter(int counter) {
+            UserEntity.counter = counter;
         }
 
         public int getId() {
             return id;
         }
+
+        public void setId(int id){
+            this.id = id;
+        }
     }
 
     @Entity(tableName = "vendors", indices = {@Index(value = {"id"}, unique = true)},
             foreignKeys = @ForeignKey(entity = ProductEntity.class, parentColumns = "pId",
-            childColumns = "product", onDelete = CASCADE))
-    public class VendorEntity extends PersonEntity{
+                    childColumns = "product", onDelete = CASCADE))
+    public static class VendorEntity extends PersonEntity {
+        static int counter = 0;
+
         @ColumnInfo(name = "id")
         private int id;
-        @ColumnInfo(name = "product")
-        private ArrayList<Integer> prodIds;
 
-        VendorEntity(int id, String address, String emailId, String name, String password,
-                     String salt) {
+        public VendorEntity(){
+            super("", "", "", "", "");
+            this.id = ++counter;
+        }
+
+        public VendorEntity(int id, String address, String emailId, String name, String password,
+                            String salt) {
             super(address, emailId, name, password, salt);
             this.id = id;
         }
@@ -214,14 +240,6 @@ public class Entities {
         public void setId(int id) {
             this.id = id;
         }
-
-        public ArrayList<Integer> getProdIds() {
-            return prodIds;
-        }
-
-        public void setProdIds(ArrayList<Integer> prodIds) {
-            this.prodIds = prodIds;
-        }
     }
 
     @Entity(tableName = "cards", indices = {@Index(value = {"id", "id"}, unique = true)},
@@ -229,19 +247,16 @@ public class Entities {
                     childColumns = "id", onDelete = CASCADE),
                     @ForeignKey(entity = VendorEntity.class, parentColumns = "id",
                             childColumns = "id", onDelete = CASCADE)})
-    public static class PaymentEntity{
+    public static class PaymentEntity {
+        @ColumnInfo(name = "amount")
+        public float amount;
         @ColumnInfo(name = "id")
         private int id;
-
         @PrimaryKey
         @ColumnInfo(name = "card")
         private long cardNumber;
-
         @ColumnInfo(name = "pin")
         private String pin;
-
-        @ColumnInfo(name = "amount")
-        public float amount;
         @ColumnInfo(name = "salt")
         private String salt;
 

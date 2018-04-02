@@ -26,10 +26,9 @@
     <string name="submit_card_details">SUBMIT CARD DETAILS</string>
     <string name="pay">PAY</string>
     <string name="enter_pin">Enter PIN</string>
-    <string name="cancel">CANCEL</string>
+    <string name="cancel">Cancel</string>
     <string name="super_secure_payment_gateway">SUPER SECURE PAYMENT GATEWAY</string>
     <string name="amount">Amount</string>
-    <string name="quantity">Quantity</string>
     <string name="update_quantity">UPDATE QUANTITY</string>
     <string name="delete_product">DELETE PRODUCT</string>
     <string name="categories">Categories</string>
@@ -44,9 +43,10 @@
     <string name="item_name">Item Name</string>
     <string name="item_category">Item Category</string>
     <string name="item_price">Item Price</string>
-    <string name="item_name">Item Name</string>
-    <string name="item_category">Item Category</string>
     <string name="remove">REMOVE</string>
     <string name="cart">Cart</string>
     <string name="logout">Logout</string>
+    <string name="add_product">ADD PRODUCT</string>
+    <string name="quantity">Quantity</string>
+    <string name="product_name">Product Name</string>
 </resources>
