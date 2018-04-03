@@ -7,7 +7,6 @@
     tools:context="com.example.aayush.onlineshopping.CategoryPage">
 
     <TextView
-        android:id="@+id/tv_categories"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="384dp"

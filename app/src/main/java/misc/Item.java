@@ -1,12 +1,12 @@
 package misc;
 
 public class Item {
-    public String name;
-    public String category;
+    private String name;
+    private String category;
     public float price;
-    public int quantity;
-    public int size;
-    public int image;
+    private int quantity;
+    private int size;
+    private int image;
 
     public Item() {}
 

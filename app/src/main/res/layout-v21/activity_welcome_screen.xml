@@ -42,7 +42,6 @@
         app:layout_constraintStart_toEndOf="@+id/buttonCW" />
 
     <ImageButton
-        android:id="@+id/welcomeImage"
         android:layout_width="190dp"
         android:layout_height="182dp"
         android:layout_marginBottom="8dp"

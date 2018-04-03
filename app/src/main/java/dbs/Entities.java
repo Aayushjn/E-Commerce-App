@@ -5,10 +5,7 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.ForeignKey;
 import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
-import android.arch.persistence.room.TypeConverter;
 import android.support.annotation.NonNull;
-
-import java.util.ArrayList;
 
 import static android.arch.persistence.room.ForeignKey.CASCADE;
 
@@ -17,35 +14,28 @@ import static android.arch.persistence.room.ForeignKey.CASCADE;
  */
 
 public class Entities {
-    @Entity(tableName = "products", indices = {@Index(value = {"pId", "vendor"}, unique = true)},
-            foreignKeys = @ForeignKey(entity = VendorEntity.class, parentColumns = "id",
-                    childColumns = "vendor", onDelete = CASCADE))
+    @Entity(tableName = "products")
     public static class ProductEntity {
-        @PrimaryKey(autoGenerate = true)
-        @ColumnInfo(name = "pId")
-        private int pId;
-
+        private static int counter = 0;
+        @PrimaryKey
+        @ColumnInfo(name = "prodId")
+        private int prodId;
         @ColumnInfo(name = "cost")
         private float cost;
-
         @ColumnInfo(name = "quantity")
         private int quantity;
-
         @ColumnInfo(name = "category")
         private String category;
-
         @ColumnInfo(name = "name")
         private String name;
-
         @ColumnInfo(name = "size")
         private String size;
-
         @ColumnInfo(name = "vendor")
         private int vendId;
 
-        ProductEntity(int pId, float cost, int quantity, String category, String name, String size,
-                      int vendId) {
-            this.pId = pId;
+        public ProductEntity(float cost, int quantity, String category, String name, String size,
+                             int vendId) {
+            setProdId(++counter);
             this.cost = cost;
             this.quantity = quantity;
             this.category = category;
@@ -54,12 +44,16 @@ public class Entities {
             this.vendId = vendId;
         }
 
-        public void setpId(int pId) {
-            this.pId = pId;
+        public static int getCounter() {
+            return counter;
         }
 
-        public int getPId() {
-            return pId;
+        public static void setCounter(int counter) {
+            ProductEntity.counter = counter;
+        }
+
+        public int getProdId(){
+            return prodId;
         }
 
         public float getCost() {
@@ -108,6 +102,10 @@ public class Entities {
 
         public void setVendId(int vendId) {
             this.vendId = vendId;
+        }
+
+        public void setProdId(int prodId) {
+            this.prodId = prodId;
         }
     }
 
@@ -178,7 +176,7 @@ public class Entities {
     }
 
 
-    @Entity(tableName = "users", indices = @Index(value = {"id"}, unique = true))
+    @Entity(tableName = "users")
     public static class UserEntity extends PersonEntity {
         static int counter = 0;
 
@@ -208,14 +206,12 @@ public class Entities {
             return id;
         }
 
-        public void setId(int id){
+        void setId(int id){
             this.id = id;
         }
     }
 
-    @Entity(tableName = "vendors", indices = {@Index(value = {"id"}, unique = true)},
-            foreignKeys = @ForeignKey(entity = ProductEntity.class, parentColumns = "pId",
-                    childColumns = "product", onDelete = CASCADE))
+    @Entity(tableName = "vendors")
     public static class VendorEntity extends PersonEntity {
         static int counter = 0;
 
@@ -242,14 +238,10 @@ public class Entities {
         }
     }
 
-    @Entity(tableName = "cards", indices = {@Index(value = {"id", "id"}, unique = true)},
-            foreignKeys = {@ForeignKey(entity = UserEntity.class, parentColumns = "id",
-                    childColumns = "id", onDelete = CASCADE),
-                    @ForeignKey(entity = VendorEntity.class, parentColumns = "id",
-                            childColumns = "id", onDelete = CASCADE)})
+    @Entity(tableName = "cards")
     public static class PaymentEntity {
         @ColumnInfo(name = "amount")
-        public float amount;
+        float amount;
         @ColumnInfo(name = "id")
         private int id;
         @PrimaryKey

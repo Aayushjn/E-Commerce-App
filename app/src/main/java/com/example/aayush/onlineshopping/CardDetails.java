@@ -4,9 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
@@ -16,48 +16,84 @@ import dbs.Databases;
 import dbs.Entities;
 import misc.PasswordOps;
 
+import static xdroid.toaster.Toaster.toast;
+
 public class CardDetails extends AppCompatActivity {
-    final Bundle extras = getIntent().getExtras();
+    private Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_card_details);
+
+        extras = getIntent().getExtras();
     }
 
-    public void submitCard(View view) throws NoSuchProviderException, NoSuchAlgorithmException {
-        Databases.PaymentDatabase paymentDB;
-        DAOs.PaymentDAO payAcc;
-        Context current = getApplicationContext();
-        paymentDB = Databases.PaymentDatabase.getPaymentDatabase(current);
-        payAcc = paymentDB.paymentDAO();
-
+    public void submitCard(View view) {
         assert extras != null;
         int id = extras.getInt("id");
+
+        EditText cardText = findViewById(R.id.cardNo);
+        EditText pin1Text = findViewById(R.id.pin);
+        EditText pin2Text = findViewById(R.id.pinRepeat);
+
+        CardThread cardThread = new CardThread(id, getApplicationContext(), cardText, pin1Text,
+                pin2Text);
+        cardThread.start();
+    }
+}
+
+class CardThread extends Thread {
+    private int id;
+    private Context current;
+    private EditText cardText;
+    private EditText pin1Text;
+    private EditText pin2Text;
+
+    CardThread(int id, Context current, EditText cardText, EditText pin1Text, EditText pin2Text){
+        this.id = id;
+        this.current = current;
+        this.cardText = cardText;
+        this.pin1Text = pin1Text;
+        this.pin2Text = pin2Text;
+    }
+
+    @Override
+    public void run() {
+        Databases.PaymentDatabase paymentDB;
+        DAOs.PaymentDAO payAcc;
+        paymentDB = Databases.PaymentDatabase.getPaymentDatabase(current);
+        payAcc = paymentDB.paymentDAO();
 
         String pin1, pin2, errorString = null;
         long cardNo;
 
-        cardNo = Long.parseLong(((EditText)findViewById(R.id.cardNo)).getText().toString());
-        pin1 = ((EditText)findViewById(R.id.pin)).getText().toString();
-        pin2 = ((EditText)findViewById(R.id.pinRepeat)).getText().toString();
+        cardNo = Long.parseLong(cardText.getText().toString());
+        pin1 = pin1Text.getText().toString();
+        pin2 = pin2Text.getText().toString();
 
-        if((Long.valueOf(cardNo) == null) || (pin1 == null) || (pin2 == null)){
+        if((Long.toString(cardNo) == null) || (pin1 == null) || (pin2 == null)){
             errorString = "Fields Cannot be null";
         }
         else if(!pin1.equals(pin2)){
             errorString = "Passwords do not Match";
         }
         else{
-            byte[] salt = PasswordOps.getSalt();
+            byte[] salt = new byte[0];
+            try {
+                salt = PasswordOps.getSalt();
+            } catch (NoSuchAlgorithmException e) {
+                Log.e("exception", "NoSuchAlgorithm");
+            } catch (NoSuchProviderException e) {
+                Log.e("exception", "NoSuchProvider");
+            }
             String hashedPIN = PasswordOps.getSecurePassword(pin1, salt);
             Entities.PaymentEntity cardDet = new Entities.PaymentEntity(id, cardNo, hashedPIN,
                     10000, new String(salt));
             payAcc.insertCard(cardDet);
-            Intent move = new Intent(this, WelcomeScreen.class);
-            startActivity(move);
+            Intent move = new Intent(current, WelcomeScreen.class);
+            current.startActivity(move);
         }
-        Context context = getApplicationContext();
-        Toast.makeText(context, errorString, Toast.LENGTH_LONG).show();
+        toast(errorString);
     }
 }

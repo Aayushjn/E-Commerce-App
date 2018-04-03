@@ -1,5 +1,6 @@
 package com.example.aayush.onlineshopping;
 
+import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -16,28 +17,50 @@ import misc.Cart;
 import misc.Item;
 
 public class CategoryProduct extends AppCompatActivity {
-    ArrayList<Item> items_list;
-    final Bundle extras = getIntent().getExtras();
+    private Bundle extras;
 
-    final Cart cart = (Cart) (extras != null ? extras.getSerializable("cart") : null);
+    private final Cart cart = (Cart) (extras != null ? extras.getSerializable("cart") : null);
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_page);
 
-        items_list = new ArrayList<>();
-        Cursor c;
+        extras = getIntent().getExtras();
 
         assert extras != null;
         int categoryFlag = extras.getInt("categoryFlag");
 
+        RecyclerView rv = findViewById(R.id.rv_item_display_layout);
+
+        DBThread dbThread = new DBThread(categoryFlag, getApplicationContext(), cart, rv);
+        dbThread.start();
+    }
+}
+
+class DBThread extends Thread{
+    private int categoryFlag;
+    private Context current;
+    private Cart cart;
+    private RecyclerView rv;
+
+    DBThread(int categoryFlag, Context current, Cart cart, RecyclerView rv){
+        this.categoryFlag = categoryFlag;
+        this.current = current;
+        this.cart = cart;
+        this.rv = rv;
+    }
+
+    @Override
+    public void run() {
+        ArrayList<Item> items_list = new ArrayList<>();
+        Cursor c;
+        Item item;
+
         Databases.ProductDatabase db =
-                Databases.ProductDatabase.getProductDatabase(getApplicationContext());
+                Databases.ProductDatabase.getProductDatabase(current);
         DAOs.ProductDAO dao;
         dao = db.productDAO();
-
-        Item item;
 
         // TODO: Figure out images
         switch(categoryFlag){
@@ -56,8 +79,8 @@ public class CategoryProduct extends AppCompatActivity {
                     }
                 }
                 c.close();
-                setTitle("Clothing");
-            break;
+                ((CategoryProduct)current).getSupportActionBar().setTitle("Clothing");
+                break;
             case 2:
                 c = dao.getProductsByCategory("Books");
                 if(c.moveToFirst()){
@@ -73,8 +96,8 @@ public class CategoryProduct extends AppCompatActivity {
                     }
                 }
                 c.close();
-                setTitle("Books");
-            break;
+                ((CategoryProduct)current).getSupportActionBar().setTitle("Books");
+                break;
             case 3:
                 c = dao.getProductsByCategory("Appliances");
                 if(c.moveToFirst()){
@@ -90,8 +113,8 @@ public class CategoryProduct extends AppCompatActivity {
                     }
                 }
                 c.close();
-                setTitle("Appliances");
-            break;
+                ((CategoryProduct)current).getSupportActionBar().setTitle("Appliances");
+                break;
             case 4:
                 c = dao.getProductsByCategory("Electronics");
                 if(c.moveToFirst()){
@@ -107,8 +130,8 @@ public class CategoryProduct extends AppCompatActivity {
                     }
                 }
                 c.close();
-                setTitle("Electronics");
-            break;
+                ((CategoryProduct)current).getSupportActionBar().setTitle("Electronics");
+                break;
             case 5:
                 c = dao.getProductsByCategory("Furniture");
                 if(c.moveToFirst()){
@@ -124,8 +147,8 @@ public class CategoryProduct extends AppCompatActivity {
                     }
                 }
                 c.close();
-                setTitle("Furniture");
-            break;
+                ((CategoryProduct)current).getSupportActionBar().setTitle("Furniture");
+                break;
             case 6:
                 c = dao.getProductsByCategory("Food");
                 if(c.moveToFirst()){
@@ -141,15 +164,16 @@ public class CategoryProduct extends AppCompatActivity {
                     }
                 }
                 c.close();
-                setTitle("Food");
-            break;
+                ((CategoryProduct)current).getSupportActionBar().setTitle("Food");
+                break;
             default:
                 Log.e("WTF", "How did this happen?!?!");
         }
-        RecyclerView rv = findViewById(R.id.rv_item_display_layout);
-        Adapters.RecyclerViewAdapter myAdapter = new Adapters.RecyclerViewAdapter(this,
+
+
+        Adapters.RecyclerViewAdapter myAdapter = new Adapters.RecyclerViewAdapter(current,
                 items_list, cart);
-        rv.setLayoutManager(new GridLayoutManager(this, 3));
+        rv.setLayoutManager(new GridLayoutManager(current, 3));
         rv.setAdapter(myAdapter);
     }
 }

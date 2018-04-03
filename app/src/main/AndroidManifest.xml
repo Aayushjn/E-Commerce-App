@@ -5,9 +5,9 @@
     <application
         android:allowBackup="true"
         android:fullBackupContent="@xml/backup_descriptor"
-        android:icon="@mipmap/app_launcher"
+        android:icon="@mipmap/app_icon_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/app_icon_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".WelcomeScreen">
@@ -79,6 +79,14 @@
                 android:value=".LoginScreen" />
         </activity>
         <activity
+            android:name=".AddProduct"
+            android:label="Add Product"
+            android:parentActivityName=".VendorHomepage">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".VendorHomepage" />
+        </activity>
+        <activity
             android:name=".VendorItemPage"
             android:label="Vendor Item Page"
             android:parentActivityName=".VendorHomepage">
@@ -86,7 +94,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".VendorHomepage" />
         </activity>
-        <activity android:name=".AddProduct"></activity>
     </application>
 
 </manifest>

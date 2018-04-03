@@ -6,18 +6,18 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import dbs.DAOs;
 import dbs.Databases;
 import dbs.Entities;
 import misc.Cart;
 
-public class PaymentAuth extends AppCompatActivity {
-    final Bundle extras = getIntent().getExtras();
+import static xdroid.toaster.Toaster.toast;
+import static xdroid.toaster.Toaster.toastLong;
 
-    final int userId = extras != null ? extras.getInt("id") : 0;
-    final Cart cart = (Cart) (extras != null ? extras.getSerializable("cart") : null);
+public class PaymentAuth extends AppCompatActivity {
+    private Bundle extras;
+    private final Cart cart = (Cart) (extras != null ? extras.getSerializable("cart") : null);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,19 +25,15 @@ public class PaymentAuth extends AppCompatActivity {
         setContentView(R.layout.activity_payment_auth);
         setTitle("Authorize Payment");
 
-        Databases.UserDatabase userDB = Databases.UserDatabase.getUserDatabase(this);
-        DAOs.UserDAO userDAO = userDB.userDAO();
-        Entities.UserEntity user = userDAO.getUserById(userId);
-        Databases.PaymentDatabase paymentDB = Databases.PaymentDatabase.getPaymentDatabase(this);
-        DAOs.PaymentDAO paymentDAO = paymentDB.paymentDAO();
-        Entities.PaymentEntity pay = paymentDAO.getCardDetailsById(userId);
+        extras = getIntent().getExtras();
+
         TextView amt = findViewById(R.id.payAmt);
-        assert cart != null;
-        amt.setText(String.valueOf(cart.getTotalCost()));
-        TextView em = findViewById(R.id.userEmail);
-        amt.setText(user.getEmailId());
         TextView card = findViewById(R.id.userCard);
-        card.setText(String.valueOf(pay.getCardNumber()));
+
+        assert extras != null;
+        OnCreateThread onCreateThread = new OnCreateThread(getApplicationContext(), cart,
+                extras.getInt("id"), amt, card);
+        onCreateThread.start();
     }
 
     public void cancelPay(View view){
@@ -46,15 +42,33 @@ public class PaymentAuth extends AppCompatActivity {
     }
 
     public void confirmPay(View view){
+        assert extras != null;
+        PaymentThread paymentThread = new PaymentThread(getApplicationContext(), cart, extras);
+        paymentThread.start();
+    }
+}
+
+class PaymentThread extends Thread {
+    private Context current;
+    private Cart cart;
+    private Bundle extras;
+    private int userId;
+
+    PaymentThread(Context current, Cart cart, Bundle extras){
+        this.current = current;
+        this.cart = cart;
+        this.extras = extras;
+        this.userId = extras.getInt("id");
+    }
+
+    @Override
+    public void run() {
         Databases.PaymentDatabase paymentDB;
         Databases.VendorDatabase vendorDB;
-        Databases.UserDatabase userDB;
         Databases.ProductDatabase productDB;
         DAOs.PaymentDAO payAcc;
         DAOs.VendorDAO vendAcc;
-        DAOs.UserDAO userAcc;
         DAOs.ProductDAO productAcc;
-        Context current = getApplicationContext();
         paymentDB = Databases.PaymentDatabase.getPaymentDatabase(current);
         vendorDB = Databases.VendorDatabase.getVendorDatabase(current);
         productDB = Databases.ProductDatabase.getProductDatabase(current);
@@ -72,10 +86,10 @@ public class PaymentAuth extends AppCompatActivity {
         float cartValue = extras.getFloat("cartValue");
 
         if (userBalance < cartValue){
-            Intent exit = new Intent(this, CategoryPage.class);
+            Intent exit = new Intent(current, CategoryPage.class);
             exit.putExtra("userId", userId);
-            Toast.makeText(current,"Insufficient Funds", Toast.LENGTH_LONG).show();
-            startActivity(exit);
+            toast("Insufficient funds");
+            current.startActivity(exit);
         }
 
         float uAmount = 0, vAmount;
@@ -91,9 +105,39 @@ public class PaymentAuth extends AppCompatActivity {
         }
         payAcc.updateAmountById(uAmount, userId);
 
-        Toast.makeText(current,"PAYMENT COMPLETE", Toast.LENGTH_LONG).show();
-        Intent paymentDone = new Intent(this, CategoryPage.class);
+        toastLong("Payment Complete!");
+        Intent paymentDone = new Intent(current, CategoryPage.class);
         paymentDone.putExtra("userId", userId);
-        startActivity(paymentDone);
+        current.startActivity(paymentDone);
+    }
+}
+
+class OnCreateThread extends Thread {
+    private Context current;
+    private Cart cart;
+    private int userId;
+    private TextView amt;
+    private TextView card;
+
+    OnCreateThread(Context current, Cart cart, int id, TextView amt, TextView card){
+        this.current = current;
+        this.cart = cart;
+        this.userId = id;
+        this.amt = amt;
+        this.card = card;
+    }
+
+    @Override
+    public void run() {
+        Databases.UserDatabase userDB = Databases.UserDatabase.getUserDatabase(current);
+        DAOs.UserDAO userDAO = userDB.userDAO();
+        Entities.UserEntity user = userDAO.getUserById(userId);
+        Databases.PaymentDatabase paymentDB = Databases.PaymentDatabase.getPaymentDatabase(current);
+        DAOs.PaymentDAO paymentDAO = paymentDB.paymentDAO();
+        Entities.PaymentEntity pay = paymentDAO.getCardDetailsById(userId);
+        assert cart != null;
+        amt.setText(String.valueOf(cart.getTotalCost()));
+        amt.setText(user.getEmailId());
+        card.setText(String.valueOf(pay.getCardNumber()));
     }
 }

@@ -6,8 +6,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,33 +17,32 @@ import misc.Cart;
 import misc.Item;
 
 public class ProductActivity extends AppCompatActivity {
-    final Bundle extras = getIntent().getExtras();
+    private Bundle extras;
 
-    Cart cart = (Cart) (extras != null ? extras.getSerializable("cart") : null);
+    private Cart cart = (Cart) (extras != null ? extras.getSerializable("cart") : null);
 
-    public int temp_size;
-    public int temp_quantity;
+    private int temp_size;
+    private int temp_quantity;
 
-    final String name = extras != null ? extras.getString("name") : null;
-    final String category = extras != null ? extras.getString("category") : null;
-    final String price = extras != null ? extras.getString("price") : null;
-    final int size = extras != null ? extras.getInt("size") : -1;
-    int qty = extras != null ? extras.getInt("quantity") : -1;
-    final int imageId = extras != null ? extras.getInt("image") : 0;
+    private final String name = extras != null ? extras.getString("name") : null;
+    private final String category = extras != null ? extras.getString("category") : null;
+    private final String price = extras != null ? extras.getString("price") : null;
+    private final int size = extras != null ? extras.getInt("size") : -1;
+    private final int imageId = extras != null ? extras.getInt("image") : 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
 
+        extras = getIntent().getExtras();
+
         TextView nameTextView = findViewById(R.id.name);
         TextView categoryTextView = findViewById(R.id.category);
         TextView priceTextView = findViewById(R.id.price);
         Spinner sizeSpinner = findViewById(R.id.sizeSpinner);
         Spinner qtySpinner = findViewById(R.id.qtySpinner);
-        ImageView image = findViewById(R.id.productImage);
-        /*size_selected = findViewById(R.id.tv_size_selected);
-        quantity_selected = findViewById(R.id.tv_quantity_selected);*/
+        //ImageView image = findViewById(R.id.productImage);
 
         if(size != -1) {
             List<Integer> sizeComponents = new ArrayList<>();
@@ -100,7 +97,7 @@ public class ProductActivity extends AppCompatActivity {
         nameTextView.setText(name);
         categoryTextView.setText(category);
         priceTextView.setText(price);
-        image.setImageResource(imageId);
+        //image.setImageResource(imageId);
     }
 
     public void addToCart(View view){

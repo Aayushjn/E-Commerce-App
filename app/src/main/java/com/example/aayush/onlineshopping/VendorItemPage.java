@@ -12,12 +12,14 @@ import dbs.Databases;
 import dbs.Entities;
 
 public class VendorItemPage extends AppCompatActivity {
-    final Bundle extras = getIntent().getExtras();
+    private Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_vendor_item_page);
+
+        extras = getIntent().getExtras();
 
         assert extras != null;
         String name = extras.getString("productName");
@@ -35,9 +37,31 @@ public class VendorItemPage extends AppCompatActivity {
     }
 
     public void deleteProduct(View view){
+        DeleteThread deleteThread = new DeleteThread(getApplicationContext(), extras);
+        deleteThread.start();
+    }
+
+    public void updateQuantity(View view){
+        TextView quantity = findViewById(R.id.productQuantity);
+
+        UpdateThread updateThread = new UpdateThread(getApplicationContext(), extras, quantity);
+        updateThread.start();
+    }
+}
+
+class DeleteThread extends Thread {
+    private Context current;
+    private Bundle extras;
+
+    DeleteThread(Context current, Bundle extras){
+        this.current = current;
+        this.extras = extras;
+    }
+
+    @Override
+    public void run() {
         Databases.ProductDatabase productDB;
         DAOs.ProductDAO productDAO;
-        Context current = getApplicationContext();
         productDB = Databases.ProductDatabase.getProductDatabase(current);
         productDAO = productDB.productDAO();
 
@@ -46,15 +70,27 @@ public class VendorItemPage extends AppCompatActivity {
                 productDAO.getProductByCategoryAndName(extras.getString("productName"),
                         extras.getString("productCategory"));
         productDAO.deleteProduct(prod);
-        Intent reload = new Intent(this, VendorHomepage.class);
+        Intent reload = new Intent(current, VendorHomepage.class);
         reload.putExtra("id", extras.getIntArray("id"));
-        startActivity(reload);
+        current.startActivity(reload);
+    }
+}
+
+class UpdateThread extends Thread {
+    private Context current;
+    private Bundle extras;
+    private TextView quantity;
+
+    UpdateThread(Context current, Bundle extras, TextView quantity){
+        this.current = current;
+        this.extras = extras;
+        this.quantity = quantity;
     }
 
-    public void updateQuantity(View view){
+    @Override
+    public void run() {
         Databases.ProductDatabase productDB;
         DAOs.ProductDAO productDAO;
-        Context current=getApplicationContext();
         productDB = Databases.ProductDatabase.getProductDatabase(current);
         productDAO = productDB.productDAO();
 
@@ -62,11 +98,11 @@ public class VendorItemPage extends AppCompatActivity {
         Entities.ProductEntity prod =
                 productDAO.getProductByCategoryAndName(extras.getString("productName"),
                         extras.getString("productCategory"));
-        TextView quantity = findViewById(R.id.productQuantity);
+
         prod.setQuantity(Integer.parseInt(quantity.getText().toString()));
         productDAO.updateProduct(prod);
-        Intent reload = new Intent(this, VendorItemPage.class);
+        Intent reload = new Intent(current, VendorItemPage.class);
         reload.putExtra("id", extras.getIntArray("id"));
-        startActivity(reload);
+        current.startActivity(reload);
     }
 }

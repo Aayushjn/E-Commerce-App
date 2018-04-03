@@ -129,7 +129,7 @@ public interface Adapters{
             holder.itemRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // TODO remove the item from the cart
+                    data.remove(holder.getAdapterPosition());
                     holder.cardView.setVisibility(View.GONE);
                 }
             });

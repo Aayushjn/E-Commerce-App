@@ -13,20 +13,23 @@ import dbs.Databases;
 import dbs.Entities;
 import misc.PasswordOps;
 
+import static xdroid.toaster.Toaster.toast;
+
 public class LoginScreen extends AppCompatActivity {
-    final Bundle extras = getIntent().getExtras();
+    private Bundle extras;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
         setTitle("Login");
+
+        extras = getIntent().getExtras();
     }
 
     public void loginClick(View view){
         Context current = getApplicationContext();
 
-        assert extras != null;
         int source = extras.getInt("source");
 
         EditText email = findViewById(R.id.email);
@@ -34,60 +37,19 @@ public class LoginScreen extends AppCompatActivity {
 
         String emailId = email.getText().toString();
         String password = loginPassword.getText().toString();
-        String errorMessage = null;
 
         if(emailId == null || password == null){
-            errorMessage = "Fields cannot be blank!";
+            Toast.makeText(current, "Fields cannot be blank!", Toast.LENGTH_SHORT).show();
         }
 
         if(source == 1){
-            Databases.VendorDatabase db = Databases.VendorDatabase.getVendorDatabase(current);
-            DAOs.VendorDAO vendorAcc;
-            vendorAcc = db.vendorDAO();
-            Entities.VendorEntity vendor;
-            vendor = vendorAcc.getVendorByEmail(emailId);
-            if(vendor == null){
-                errorMessage = "Invalid Username/Password";
-            }
-            else{
-                byte[] salt = vendor.getSalt().getBytes();
-                String hashedPW = PasswordOps.getSecurePassword(password, salt);
-                if(!vendor.getPassword().equals(hashedPW)){
-                    errorMessage = "Invalid Username/Password";
-                }
-                else{
-                    Intent nextPage = new Intent(this, VendorHomepage.class);
-                    int vendID = vendor.getId();
-                    nextPage.putExtra("vendID",vendID);
-                    startActivity(nextPage);
-                }
-            }
+            VendorThread vendorThread = new VendorThread(emailId, current, password);
+            vendorThread.start();
         }
         else{
-            Databases.UserDatabase db = Databases.UserDatabase.getUserDatabase(current);
-            DAOs.UserDAO userAcc;
-            userAcc = db.userDAO();
-            Entities.UserEntity user = userAcc.getUserByEmail(emailId);
-
-            if(user == null){
-                errorMessage = "Invalid Username/Password";
-            }
-            else{
-                byte[] salt = user.getSalt().getBytes();
-                String hashedPW = PasswordOps.getSecurePassword(password, salt);
-                if(!user.getPassword().equals(hashedPW)){
-                    errorMessage = "Invalid Username/Password";
-                }
-                else{
-                    Intent nextPage = new Intent(this, CategoryPage.class);
-                    int vendID = user.getId();
-                    nextPage.putExtra("vendID", vendID);
-                    startActivity(nextPage);
-                }
-            }
+            UserThread userThread = new UserThread(emailId, current, password);
+            userThread.start();
         }
-
-        Toast.makeText(current,errorMessage, Toast.LENGTH_LONG).show();
     }
 
     @Override
@@ -97,9 +59,84 @@ public class LoginScreen extends AppCompatActivity {
     }
 
     public void registerClick(View view) {
+        assert extras != null;
         int source = extras.getInt("source");
         Intent regPage = new Intent(this, RegistrationScreen.class);
         regPage.putExtra("source", source);
         startActivity(regPage);
+    }
+}
+
+class VendorThread extends Thread {
+    private String emailId;
+    private Context current;
+    private String password;
+
+    VendorThread(String emailId, Context current, String password){
+        this.emailId = emailId;
+        this.current = current;
+        this.password = password;
+    }
+
+    @Override
+    public void run(){
+        Databases.VendorDatabase db = Databases.VendorDatabase.getVendorDatabase(current);
+        DAOs.VendorDAO vendorAcc;
+        vendorAcc = db.vendorDAO();
+        Entities.VendorEntity vendor;
+        vendor = vendorAcc.getVendorByEmail(emailId);
+        if(vendor == null){
+            toast(R.string.invalid_format);
+        }
+        else{
+            byte[] salt = vendor.getSalt().getBytes();
+            String hashedPW = PasswordOps.getSecurePassword(password, salt);
+            if(!vendor.getPassword().equals(hashedPW)){
+                toast(R.string.invalid_format);
+            }
+            else{
+                Intent nextPage = new Intent(current, VendorHomepage.class);
+                int vendID = vendor.getId();
+                nextPage.putExtra("vendID",vendID);
+                current.startActivity(nextPage);
+            }
+        }
+    }
+}
+
+class UserThread extends Thread {
+    private String emailId;
+    private Context current;
+    private String password;
+
+    UserThread(String emailId, Context current, String password){
+        this.emailId = emailId;
+        this.current = current;
+        this.password = password;
+    }
+
+    @Override
+    public void run(){
+        Databases.UserDatabase db = Databases.UserDatabase.getUserDatabase(current);
+        DAOs.UserDAO userAcc;
+        userAcc = db.userDAO();
+        Entities.UserEntity user = userAcc.getUserByEmail(emailId);
+
+        if(user == null){
+            toast(R.string.invalid_format);
+        }
+        else{
+            byte[] salt = user.getSalt().getBytes();
+            String hashedPW = PasswordOps.getSecurePassword(password, salt);
+            if(!user.getPassword().equals(hashedPW)){
+                toast(R.string.invalid_format);
+            }
+            else{
+                Intent nextPage = new Intent(current, CategoryPage.class);
+                int vendID = user.getId();
+                nextPage.putExtra("vendID", vendID);
+                current.startActivity(nextPage);
+            }
+        }
     }
 }

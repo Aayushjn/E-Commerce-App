@@ -8,8 +8,6 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 import android.database.Cursor;
 
-import java.util.ArrayList;
-
 /**
  * Created by Aayush on 19-Mar-18.
  */
@@ -41,8 +39,8 @@ public class DAOs {
 
     @Dao
     public interface ProductDAO{
-        @Query("SELECT * FROM products WHERE pId = :pId")
-        Entities.ProductEntity getProductById(int pId);
+        @Query("SELECT * FROM products WHERE prodId = :prodId")
+        Entities.ProductEntity getProductById(int prodId);
 
         @Query("SELECT * FROM products WHERE category = :category")
         Cursor getProductsByCategory(String category);
@@ -53,14 +51,14 @@ public class DAOs {
         @Query("SELECT * FROM products WHERE category = :category AND name = :name")
         Entities.ProductEntity getProductByCategoryAndName(String category, String name);
 
-        @Query("SELECT vendor FROM products WHERE pId = :pId")
-        int getVendorIdByProductId(int pId);
+        @Query("SELECT vendor FROM products WHERE prodId = :prodId")
+        int getVendorIdByProductId(int prodId);
 
         @Query("SELECT DISTINCT category FROM products WHERE vendor = :vendId")
         Cursor getDistinctCategories(int vendId);
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
-        long insertProduct(Entities.ProductEntity product);
+        void insertProduct(Entities.ProductEntity product);
 
         @Update(onConflict = OnConflictStrategy.REPLACE)
         void updateProduct(Entities.ProductEntity product);
@@ -83,8 +81,8 @@ public class DAOs {
         @Query("SELECT 1 FROM users WHERE password = :password")
         int isPasswordCorrect(String password);
 
-        @Query("SELECT 1 FROM users WHERE emailId = :emailId")
-        int isUnique(String emailId);
+        @Query("SELECT * FROM users WHERE emailId = :emailId")
+        Cursor isUnique(String emailId);
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         long insertUser(Entities.UserEntity user);
@@ -110,8 +108,8 @@ public class DAOs {
         @Query("SELECT 1 FROM vendors WHERE password = :password")
         int isPasswordCorrect(String password);
 
-        @Query("SELECT 1 FROM vendors WHERE emailId = :emailId")
-        int isUnique(String emailId);
+        @Query("SELECT * FROM vendors WHERE emailId = :emailId")
+        Cursor isUnique(String emailId);
 
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         long insertVendor(Entities.VendorEntity vendor);

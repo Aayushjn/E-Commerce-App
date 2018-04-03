@@ -12,7 +12,7 @@ import misc.Adapters;
 import misc.Cart;
 
 public class CartActivity extends AppCompatActivity {
-    final Bundle extras = getIntent().getExtras();
+    private Bundle extras;
 
     private final FloatingActionButton fab = findViewById(R.id.fab);
     private final RecyclerView rView = findViewById(R.id.rv_cart_layout);
@@ -24,6 +24,7 @@ public class CartActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
 
+        extras = getIntent().getExtras();
         if (extras != null) {
             cart = (Cart) extras.getSerializable("cart");
         }

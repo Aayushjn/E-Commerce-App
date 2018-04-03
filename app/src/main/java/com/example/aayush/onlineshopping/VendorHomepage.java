@@ -1,5 +1,6 @@
 package com.example.aayush.onlineshopping;
 
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
@@ -13,13 +14,10 @@ import java.util.ArrayList;
 import dbs.DAOs;
 import dbs.Databases;
 import misc.Adapters;
-import misc.Item;
 
 public class VendorHomepage extends AppCompatActivity {
-    Bundle extras = getIntent().getExtras();
+    private Bundle extras;
     private final int id = extras != null ? extras.getInt("id") : 0;
-
-    ArrayList<String> categoryList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,15 +25,41 @@ public class VendorHomepage extends AppCompatActivity {
         setContentView(R.layout.activity_vendor_homepage);
         setTitle("Home");
 
-        Databases.VendorDatabase vendorDatabase =
-                Databases.VendorDatabase.getVendorDatabase(getApplicationContext());
+        extras = getIntent().getExtras();
+
+        RecyclerView rv = findViewById(R.id.rv_vendor_layout);
+
+        VendorHomepageThread vendorHomepageThread = new
+                VendorHomepageThread(getApplicationContext(), rv, id);
+        vendorHomepageThread.start();
+    }
+
+    public void addProduct(View view){
+        Intent intent = new Intent(this, AddProduct.class);
+        intent.putExtra("id", id);
+        startActivity(intent);
+    }
+}
+
+class VendorHomepageThread extends Thread {
+    private Context current;
+    private RecyclerView rv;
+    private int id;
+
+    VendorHomepageThread(Context current, RecyclerView rv, int id){
+        this.current = current;
+        this.rv = rv;
+        this.id = id;
+    }
+
+    @Override
+    public void run() {
         Databases.ProductDatabase productDatabase =
-                Databases.ProductDatabase.getProductDatabase(getApplicationContext());
-        DAOs.VendorDAO vendorDAO = vendorDatabase.vendorDAO();
+                Databases.ProductDatabase.getProductDatabase(current);
         DAOs.ProductDAO productDAO = productDatabase.productDAO();
 
         Cursor c;
-        categoryList = new ArrayList<>();
+        ArrayList<String> categoryList = new ArrayList<>();
         c = productDAO.getDistinctCategories(id);
         if(c.moveToFirst()){
             while(!c.isAfterLast()){
@@ -46,15 +70,8 @@ public class VendorHomepage extends AppCompatActivity {
         }
         c.close();
 
-        RecyclerView rv = findViewById(R.id.rv_vendor_layout);
-        Adapters.RVVendorAdapter myAdapter = new Adapters.RVVendorAdapter(this, categoryList);
-        rv.setLayoutManager(new GridLayoutManager(this, 3));
+        Adapters.RVVendorAdapter myAdapter = new Adapters.RVVendorAdapter(current, categoryList);
+        rv.setLayoutManager(new GridLayoutManager(current, 3));
         rv.setAdapter(myAdapter);
-    }
-
-    public void addProduct(View view){
-        Intent intent = new Intent(this, AddProduct.class);
-        intent.putExtra("id", id);
-        startActivity(intent);
     }
 }

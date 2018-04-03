@@ -39,4 +39,5 @@ dependencies {
     implementation 'com.android.support:cardview-v7:27.1.0'
     implementation 'com.android.support:recyclerview-v7:27.1.0'
     implementation 'com.android.support:design:27.1.0'
+    implementation 'com.shamanland:xdroid-toaster:0.0.10'
 }

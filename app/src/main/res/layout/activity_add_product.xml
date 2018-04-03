@@ -7,7 +7,6 @@
     tools:context="com.example.aayush.onlineshopping.AddProduct">
 
     <ImageButton
-        android:id="@+id/prodImg"
         android:layout_width="199dp"
         android:layout_height="198dp"
         android:layout_marginBottom="8dp"
@@ -16,12 +15,14 @@
         android:layout_marginRight="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
+        android:contentDescription="@string/icon"
         app:layout_constraintBottom_toTopOf="@+id/prodName"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.502"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/ic_launcher_foreground"
-        android:contentDescription="@string/icon" />
+        app:layout_constraintVertical_bias="1.0"
+        app:srcCompat="@drawable/ic_launcher_foreground" />
 
     <EditText
         android:id="@+id/prodName"
@@ -37,6 +38,7 @@
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/spinnerCat"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent" />
 
     <EditText
@@ -88,6 +90,19 @@
 
     <Spinner
         android:id="@+id/spinnerCat"
+        android:layout_width="214dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginStart="8dp"
+        app:layout_constraintBottom_toTopOf="@+id/spinnerSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Spinner
+        android:id="@+id/spinnerSize"
         android:layout_width="214dp"
         android:layout_height="45dp"
         android:layout_marginBottom="8dp"

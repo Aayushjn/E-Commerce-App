@@ -2,11 +2,11 @@
   "formatVersion": 1,
   "database": {
     "version": 1,
-    "identityHash": "7ec724b88655b201dd825cb9812dd6d9",
+    "identityHash": "54f5c852a61532ea7699dcd1c7819b48",
     "entities": [
       {
         "tableName": "cards",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`amount` REAL NOT NULL, `id` INTEGER NOT NULL, `card` INTEGER NOT NULL, `pin` TEXT, `salt` TEXT, PRIMARY KEY(`card`), FOREIGN KEY(`id`) REFERENCES `users`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE , FOREIGN KEY(`id`) REFERENCES `vendors`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`amount` REAL NOT NULL, `id` INTEGER NOT NULL, `card` INTEGER NOT NULL, `pin` TEXT, `salt` TEXT, PRIMARY KEY(`card`))",
         "fields": [
           {
             "fieldPath": "amount",
@@ -45,57 +45,18 @@
           ],
           "autoGenerate": false
         },
-        "indices": [
-          {
-            "name": "index_cards_id_id",
-            "unique": true,
-            "columnNames": [
-              "id",
-              "id"
-            ],
-            "createSql": "CREATE UNIQUE INDEX `index_cards_id_id` ON `${TABLE_NAME}` (`id`, `id`)"
-          }
-        ],
-        "foreignKeys": [
-          {
-            "table": "users",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "id"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          },
-          {
-            "table": "vendors",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "id"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          }
-        ]
+        "indices": [],
+        "foreignKeys": []
       },
       {
         "tableName": "vendors",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `product` TEXT, `address` TEXT, `emailId` TEXT NOT NULL, `name` TEXT, `password` TEXT, `salt` TEXT, PRIMARY KEY(`emailId`), FOREIGN KEY(`product`) REFERENCES `products`(`pId`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `address` TEXT, `emailId` TEXT NOT NULL, `name` TEXT, `password` TEXT, `salt` TEXT, PRIMARY KEY(`emailId`))",
         "fields": [
           {
             "fieldPath": "id",
             "columnName": "id",
             "affinity": "INTEGER",
             "notNull": true
-          },
-          {
-            "fieldPath": "prodIds",
-            "columnName": "product",
-            "affinity": "TEXT",
-            "notNull": false
           },
           {
             "fieldPath": "address",
@@ -134,29 +95,8 @@
           ],
           "autoGenerate": false
         },
-        "indices": [
-          {
-            "name": "index_vendors_id",
-            "unique": true,
-            "columnNames": [
-              "id"
-            ],
-            "createSql": "CREATE UNIQUE INDEX `index_vendors_id` ON `${TABLE_NAME}` (`id`)"
-          }
-        ],
-        "foreignKeys": [
-          {
-            "table": "products",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "product"
-            ],
-            "referencedColumns": [
-              "pId"
-            ]
-          }
-        ]
+        "indices": [],
+        "foreignKeys": []
       },
       {
         "tableName": "users",
@@ -205,25 +145,16 @@
           ],
           "autoGenerate": false
         },
-        "indices": [
-          {
-            "name": "index_users_id",
-            "unique": true,
-            "columnNames": [
-              "id"
-            ],
-            "createSql": "CREATE UNIQUE INDEX `index_users_id` ON `${TABLE_NAME}` (`id`)"
-          }
-        ],
+        "indices": [],
         "foreignKeys": []
       },
       {
         "tableName": "products",
-        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`pId` INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, `cost` REAL NOT NULL, `quantity` INTEGER NOT NULL, `category` TEXT, `name` TEXT, `size` TEXT, `vendor` INTEGER NOT NULL, FOREIGN KEY(`vendor`) REFERENCES `vendors`(`id`) ON UPDATE NO ACTION ON DELETE CASCADE )",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`prodId` INTEGER NOT NULL, `cost` REAL NOT NULL, `quantity` INTEGER NOT NULL, `category` TEXT, `name` TEXT, `size` TEXT, `vendor` INTEGER NOT NULL, PRIMARY KEY(`prodId`))",
         "fields": [
           {
-            "fieldPath": "pId",
-            "columnName": "pId",
+            "fieldPath": "prodId",
+            "columnName": "prodId",
             "affinity": "INTEGER",
             "notNull": true
           },
@@ -266,39 +197,17 @@
         ],
         "primaryKey": {
           "columnNames": [
-            "pId"
+            "prodId"
           ],
-          "autoGenerate": true
+          "autoGenerate": false
         },
-        "indices": [
-          {
-            "name": "index_products_pId_vendor",
-            "unique": true,
-            "columnNames": [
-              "pId",
-              "vendor"
-            ],
-            "createSql": "CREATE UNIQUE INDEX `index_products_pId_vendor` ON `${TABLE_NAME}` (`pId`, `vendor`)"
-          }
-        ],
-        "foreignKeys": [
-          {
-            "table": "vendors",
-            "onDelete": "CASCADE",
-            "onUpdate": "NO ACTION",
-            "columns": [
-              "vendor"
-            ],
-            "referencedColumns": [
-              "id"
-            ]
-          }
-        ]
+        "indices": [],
+        "foreignKeys": []
       }
     ],
     "setupQueries": [
       "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
-      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"7ec724b88655b201dd825cb9812dd6d9\")"
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"54f5c852a61532ea7699dcd1c7819b48\")"
     ]
   }
 }
