@@ -1,5 +1,6 @@
 package com.example.aayush.onlineshopping;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -54,36 +55,36 @@ public class RegistrationScreen extends AppCompatActivity {
         }
 
         if (source == 1) {
-            VThread vThread = new VThread(name, address, email, pw1, pw2, current);
+            VThread vThread = new VThread(name, address, email, pw1, pw2, this);
             vThread.start();
         } else {
-            UThread uThread = new UThread(name, address, email, pw1, pw2, current);
+            UThread uThread = new UThread(name, address, email, pw1, pw2, this);
             uThread.start();
         }
     }
 }
 
 class VThread extends Thread {
-    private Context current;
     private String email;
     private String pw1;
     private String pw2;
     private String name;
     private String address;
+    private Activity activity;
 
-    VThread(String name, String address, String emailId, String pw1, String pw2, Context current){
+    VThread(String name, String address, String emailId, String pw1, String pw2, Activity activity){
         this.name = name;
         this.address = address;
         this.email = emailId;
         this.pw1 = pw1;
         this.pw2 = pw2;
-        this.current = current;
+        this.activity = activity;
     }
 
     @Override
     public void run(){
         DAOs.VendorDAO vendorAcc;
-        Databases.VendorDatabase db = Databases.VendorDatabase.getVendorDatabase(current);
+        Databases.VendorDatabase db = Databases.VendorDatabase.getVendorDatabase(activity);
         vendorAcc = db.vendorDAO();
         Entities.VendorEntity vendor = new Entities.VendorEntity();
 
@@ -107,22 +108,22 @@ class VThread extends Thread {
             vendor.setPassword(hashedPW);
             vendor.setSalt(new String(salt));
             long id = vendorAcc.insertVendor(vendor);
-            Intent moveOn = new Intent(current, CardDetails.class);
+            Intent moveOn = new Intent(activity, CardDetails.class);
             moveOn.putExtra("id", id);
-            current.startActivity(moveOn);
+            activity.startActivity(moveOn);
         }
     }
 }
 
 class UThread extends Thread {
-    private Context current;
+    private Activity current;
     private String email;
     private String pw1;
     private String pw2;
     private String name;
     private String address;
 
-    UThread(String name, String address, String emailId, String pw1, String pw2, Context current){
+    UThread(String name, String address, String emailId, String pw1, String pw2, Activity current){
         this.name = name;
         this.address = address;
         this.email = emailId;

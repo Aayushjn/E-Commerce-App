@@ -1,5 +1,6 @@
 package com.example.aayush.onlineshopping;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -91,7 +92,7 @@ public class AddProduct extends AppCompatActivity {
         int qty = Integer.parseInt(qtyText.getText().toString());
         String name = nameText.getText().toString();
 
-        ProductThread productThread = new ProductThread(getApplicationContext(), extras, name,
+        ProductThread productThread = new ProductThread(this, extras, name,
                 category, size, price, qty);
         productThread.start();
     }
@@ -104,9 +105,9 @@ class ProductThread extends Thread {
     private String category;
     private int size;
     private Bundle extras;
-    private Context current;
+    private Activity current;
 
-    ProductThread(Context current, Bundle extras, String name, String category, int size,
+    ProductThread(Activity current, Bundle extras, String name, String category, int size,
                   float price, int qty){
         this.current = current;
         this.extras = extras;

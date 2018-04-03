@@ -1,5 +1,6 @@
 package com.example.aayush.onlineshopping;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -37,23 +38,23 @@ public class VendorItemPage extends AppCompatActivity {
     }
 
     public void deleteProduct(View view){
-        DeleteThread deleteThread = new DeleteThread(getApplicationContext(), extras);
+        DeleteThread deleteThread = new DeleteThread(this, extras);
         deleteThread.start();
     }
 
     public void updateQuantity(View view){
         TextView quantity = findViewById(R.id.productQuantity);
 
-        UpdateThread updateThread = new UpdateThread(getApplicationContext(), extras, quantity);
+        UpdateThread updateThread = new UpdateThread(this, extras, quantity);
         updateThread.start();
     }
 }
 
 class DeleteThread extends Thread {
-    private Context current;
+    private Activity current;
     private Bundle extras;
 
-    DeleteThread(Context current, Bundle extras){
+    DeleteThread(Activity current, Bundle extras){
         this.current = current;
         this.extras = extras;
     }
@@ -77,11 +78,11 @@ class DeleteThread extends Thread {
 }
 
 class UpdateThread extends Thread {
-    private Context current;
+    private Activity current;
     private Bundle extras;
     private TextView quantity;
 
-    UpdateThread(Context current, Bundle extras, TextView quantity){
+    UpdateThread(Activity current, Bundle extras, TextView quantity){
         this.current = current;
         this.extras = extras;
         this.quantity = quantity;

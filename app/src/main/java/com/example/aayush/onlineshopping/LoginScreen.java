@@ -1,5 +1,6 @@
 package com.example.aayush.onlineshopping;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -43,11 +44,11 @@ public class LoginScreen extends AppCompatActivity {
         }
 
         if(source == 1){
-            VendorThread vendorThread = new VendorThread(emailId, current, password);
+            VendorThread vendorThread = new VendorThread(emailId, this, password);
             vendorThread.start();
         }
         else{
-            UserThread userThread = new UserThread(emailId, current, password);
+            UserThread userThread = new UserThread(emailId, this, password);
             userThread.start();
         }
     }
@@ -69,10 +70,10 @@ public class LoginScreen extends AppCompatActivity {
 
 class VendorThread extends Thread {
     private String emailId;
-    private Context current;
+    private Activity current;
     private String password;
 
-    VendorThread(String emailId, Context current, String password){
+    VendorThread(String emailId, Activity current, String password){
         this.emailId = emailId;
         this.current = current;
         this.password = password;
@@ -106,10 +107,10 @@ class VendorThread extends Thread {
 
 class UserThread extends Thread {
     private String emailId;
-    private Context current;
+    private Activity current;
     private String password;
 
-    UserThread(String emailId, Context current, String password){
+    UserThread(String emailId, Activity current, String password){
         this.emailId = emailId;
         this.current = current;
         this.password = password;

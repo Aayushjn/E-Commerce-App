@@ -1,5 +1,6 @@
 package com.example.aayush.onlineshopping;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
@@ -30,7 +31,7 @@ public class VendorHomepage extends AppCompatActivity {
         RecyclerView rv = findViewById(R.id.rv_vendor_layout);
 
         VendorHomepageThread vendorHomepageThread = new
-                VendorHomepageThread(getApplicationContext(), rv, id);
+                VendorHomepageThread(this, rv, id);
         vendorHomepageThread.start();
     }
 
@@ -42,11 +43,11 @@ public class VendorHomepage extends AppCompatActivity {
 }
 
 class VendorHomepageThread extends Thread {
-    private Context current;
+    private Activity current;
     private RecyclerView rv;
     private int id;
 
-    VendorHomepageThread(Context current, RecyclerView rv, int id){
+    VendorHomepageThread(Activity current, RecyclerView rv, int id){
         this.current = current;
         this.rv = rv;
         this.id = id;

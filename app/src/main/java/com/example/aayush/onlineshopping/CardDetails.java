@@ -1,5 +1,6 @@
 package com.example.aayush.onlineshopping;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -37,7 +38,7 @@ public class CardDetails extends AppCompatActivity {
         EditText pin1Text = findViewById(R.id.pin);
         EditText pin2Text = findViewById(R.id.pinRepeat);
 
-        CardThread cardThread = new CardThread(id, getApplicationContext(), cardText, pin1Text,
+        CardThread cardThread = new CardThread(id, this, cardText, pin1Text,
                 pin2Text);
         cardThread.start();
     }
@@ -45,12 +46,12 @@ public class CardDetails extends AppCompatActivity {
 
 class CardThread extends Thread {
     private int id;
-    private Context current;
+    private Activity current;
     private EditText cardText;
     private EditText pin1Text;
     private EditText pin2Text;
 
-    CardThread(int id, Context current, EditText cardText, EditText pin1Text, EditText pin2Text){
+    CardThread(int id, Activity current, EditText cardText, EditText pin1Text, EditText pin2Text){
         this.id = id;
         this.current = current;
         this.cardText = cardText;

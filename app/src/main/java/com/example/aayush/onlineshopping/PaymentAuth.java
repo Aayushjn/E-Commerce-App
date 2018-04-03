@@ -1,5 +1,6 @@
 package com.example.aayush.onlineshopping;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
@@ -32,7 +33,7 @@ public class PaymentAuth extends AppCompatActivity {
         TextView card = findViewById(R.id.userCard);
 
         assert extras != null;
-        OnCreateThread onCreateThread = new OnCreateThread(getApplicationContext(), cart,
+        OnCreateThread onCreateThread = new OnCreateThread(this, cart,
                 extras.getInt("id"), amt, card);
         onCreateThread.start();
     }
@@ -44,18 +45,18 @@ public class PaymentAuth extends AppCompatActivity {
 
     public void confirmPay(View view){
         assert extras != null;
-        PaymentThread paymentThread = new PaymentThread(getApplicationContext(), cart, extras);
+        PaymentThread paymentThread = new PaymentThread(this, cart, extras);
         paymentThread.start();
     }
 }
 
 class PaymentThread extends Thread {
-    private Context current;
+    private Activity current;
     private Cart cart;
     private Bundle extras;
     private int userId;
 
-    PaymentThread(Context current, Cart cart, Bundle extras){
+    PaymentThread(Activity current, Cart cart, Bundle extras){
         this.current = current;
         this.cart = cart;
         this.extras = extras;
@@ -114,13 +115,13 @@ class PaymentThread extends Thread {
 }
 
 class OnCreateThread extends Thread {
-    private Context current;
+    private Activity current;
     private Cart cart;
     private int userId;
     private TextView amt;
     private TextView card;
 
-    OnCreateThread(Context current, Cart cart, int id, TextView amt, TextView card){
+    OnCreateThread(Activity current, Cart cart, int id, TextView amt, TextView card){
         this.current = current;
         this.cart = cart;
         this.userId = id;

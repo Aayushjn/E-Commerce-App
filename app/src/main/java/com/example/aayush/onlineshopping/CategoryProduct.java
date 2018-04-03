@@ -1,5 +1,6 @@
 package com.example.aayush.onlineshopping;
 
+import android.app.Activity;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
@@ -17,7 +18,6 @@ import misc.Cart;
 import misc.Item;
 
 public class CategoryProduct extends AppCompatActivity {
-    private Bundle extras;
 
     private Cart cart;
     
@@ -26,7 +26,7 @@ public class CategoryProduct extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_page);
 
-        extras = getIntent().getExtras();
+        Bundle extras = getIntent().getExtras();
         int categoryFlag = 1;
 
         if(extras != null) {
@@ -38,18 +38,18 @@ public class CategoryProduct extends AppCompatActivity {
 
         RecyclerView rv = findViewById(R.id.rv_item_display_layout);
 
-        DBThread dbThread = new DBThread(categoryFlag, getApplicationContext(), cart, rv);
+        DBThread dbThread = new DBThread(categoryFlag, this, cart, rv);
         dbThread.start();
     }
 }
 
 class DBThread extends Thread{
     private int categoryFlag;
-    private Context current;
+    private Activity current;
     private Cart cart;
     private RecyclerView rv;
 
-    DBThread(int categoryFlag, Context current, Cart cart, RecyclerView rv){
+    DBThread(int categoryFlag, Activity current, Cart cart, RecyclerView rv){
         this.categoryFlag = categoryFlag;
         this.current = current;
         this.cart = cart;
