@@ -14,16 +14,16 @@ import misc.Cart;
 public class CategoryPage extends AppCompatActivity {
     private int categoryFlag;
 
-    private Bundle extras;
-    private final Cart cart = (Cart) (extras != null ? extras.getSerializable("cart") : null);
+    private Cart cart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_page);
 
-        extras = getIntent().getExtras();
-        final Intent intent = new Intent(this, CategoryProduct.class);
+        Bundle extras = getIntent().getExtras();
+        cart = (Cart) (extras != null ? extras.getSerializable("cart") : null);
+
 
         CardView clothes = findViewById(R.id.clothing);
         CardView books = findViewById(R.id.books);
@@ -36,7 +36,12 @@ public class CategoryPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 categoryFlag = 1;
+                Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
                 intent.putExtra("categoryFlag", categoryFlag);
+                if(cart != null){
+                    intent.putExtra("cart", cart);
+                }
+                startActivity(intent);
             }
         });
 
@@ -44,9 +49,11 @@ public class CategoryPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 categoryFlag = 2;
+                Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
                 intent.putExtra("categoryFlag", categoryFlag);
                 if(cart != null){
                     intent.putExtra("cart", cart);
+                    startActivity(intent);
                 }
             }
         });
@@ -55,9 +62,11 @@ public class CategoryPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 categoryFlag = 3;
+                Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
                 intent.putExtra("categoryFlag", categoryFlag);
                 if(cart != null){
                     intent.putExtra("cart", cart);
+                    startActivity(intent);
                 }
             }
         });
@@ -66,9 +75,11 @@ public class CategoryPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 categoryFlag = 4;
+                Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
                 intent.putExtra("categoryFlag", categoryFlag);
                 if(cart != null){
                     intent.putExtra("cart", cart);
+                    startActivity(intent);
                 }
             }
         });
@@ -77,9 +88,11 @@ public class CategoryPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 categoryFlag = 5;
+                Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
                 intent.putExtra("categoryFlag", categoryFlag);
                 if(cart != null){
                     intent.putExtra("cart", cart);
+                    startActivity(intent);
                 }
             }
         });
@@ -88,14 +101,16 @@ public class CategoryPage extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 categoryFlag = 6;
+                Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
                 intent.putExtra("categoryFlag", categoryFlag);
                 if(cart != null){
                     intent.putExtra("cart", cart);
+                    startActivity(intent);
                 }
             }
         });
 
-        startActivity(intent);
+
     }
 
     @Override

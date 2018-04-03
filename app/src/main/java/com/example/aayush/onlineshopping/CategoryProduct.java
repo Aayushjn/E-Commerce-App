@@ -19,7 +19,7 @@ import misc.Item;
 public class CategoryProduct extends AppCompatActivity {
     private Bundle extras;
 
-    private final Cart cart = (Cart) (extras != null ? extras.getSerializable("cart") : null);
+    private Cart cart;
     
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,9 +27,14 @@ public class CategoryProduct extends AppCompatActivity {
         setContentView(R.layout.activity_product_page);
 
         extras = getIntent().getExtras();
+        int categoryFlag = 1;
 
-        assert extras != null;
-        int categoryFlag = extras.getInt("categoryFlag");
+        if(extras != null) {
+            if (extras.getSerializable("cart") != null) {
+                cart = (Cart) extras.getSerializable("cart");
+            }
+            categoryFlag = extras.getInt("categoryFlag");
+        }
 
         RecyclerView rv = findViewById(R.id.rv_item_display_layout);
 
@@ -79,7 +84,6 @@ class DBThread extends Thread{
                     }
                 }
                 c.close();
-                ((CategoryProduct)current).getSupportActionBar().setTitle("Clothing");
                 break;
             case 2:
                 c = dao.getProductsByCategory("Books");
@@ -96,7 +100,6 @@ class DBThread extends Thread{
                     }
                 }
                 c.close();
-                ((CategoryProduct)current).getSupportActionBar().setTitle("Books");
                 break;
             case 3:
                 c = dao.getProductsByCategory("Appliances");
@@ -113,7 +116,6 @@ class DBThread extends Thread{
                     }
                 }
                 c.close();
-                ((CategoryProduct)current).getSupportActionBar().setTitle("Appliances");
                 break;
             case 4:
                 c = dao.getProductsByCategory("Electronics");
@@ -130,7 +132,6 @@ class DBThread extends Thread{
                     }
                 }
                 c.close();
-                ((CategoryProduct)current).getSupportActionBar().setTitle("Electronics");
                 break;
             case 5:
                 c = dao.getProductsByCategory("Furniture");
@@ -147,7 +148,6 @@ class DBThread extends Thread{
                     }
                 }
                 c.close();
-                ((CategoryProduct)current).getSupportActionBar().setTitle("Furniture");
                 break;
             case 6:
                 c = dao.getProductsByCategory("Food");
@@ -164,7 +164,6 @@ class DBThread extends Thread{
                     }
                 }
                 c.close();
-                ((CategoryProduct)current).getSupportActionBar().setTitle("Food");
                 break;
             default:
                 Log.e("WTF", "How did this happen?!?!");

@@ -17,27 +17,30 @@ import misc.Cart;
 import misc.Item;
 
 public class ProductActivity extends AppCompatActivity {
-    private Bundle extras;
-
-    private Cart cart = (Cart) (extras != null ? extras.getSerializable("cart") : null);
+    private Cart cart;
 
     private int temp_size;
     private int temp_quantity;
 
-    private final String name = extras != null ? extras.getString("name") : null;
-    private final String category = extras != null ? extras.getString("category") : null;
-    private final String price = extras != null ? extras.getString("price") : null;
-    private final int size = extras != null ? extras.getInt("size") : -1;
-    private final int imageId = extras != null ? extras.getInt("image") : 0;
+    private String name;
+    private String category;
+    private String price;
+    private int imageId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
 
-        extras = getIntent().getExtras();
+        Bundle extras = getIntent().getExtras();
+        cart = (Cart) (extras != null ? extras.getSerializable("cart") : null);
+        name = extras != null ? extras.getString("name") : null;
+        category = extras != null ? extras.getString("category") : null;
+        price = extras != null ? extras.getString("price") : null;
+        int size = extras != null ? extras.getInt("size") : -1;
+        imageId = extras != null ? extras.getInt("image") : 0;
 
-        TextView nameTextView = findViewById(R.id.name);
+        TextView nameTextView = findViewById(R.id.productName);
         TextView categoryTextView = findViewById(R.id.category);
         TextView priceTextView = findViewById(R.id.price);
         Spinner sizeSpinner = findViewById(R.id.sizeSpinner);

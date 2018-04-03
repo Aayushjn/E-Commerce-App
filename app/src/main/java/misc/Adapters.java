@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.example.aayush.onlineshopping.ProductActivity;
 import com.example.aayush.onlineshopping.R;
+import com.example.aayush.onlineshopping.VendorItemPage;
 
 import java.util.List;
 
@@ -190,7 +191,7 @@ public interface Adapters{
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(current, ProductActivity.class);
+                    Intent intent = new Intent(current, VendorItemPage.class);
 
                     intent.putExtra("category", data.get(holder.getAdapterPosition()));
 

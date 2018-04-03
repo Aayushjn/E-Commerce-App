@@ -17,7 +17,7 @@ import static xdroid.toaster.Toaster.toastLong;
 
 public class PaymentAuth extends AppCompatActivity {
     private Bundle extras;
-    private final Cart cart = (Cart) (extras != null ? extras.getSerializable("cart") : null);
+    private Cart cart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +26,7 @@ public class PaymentAuth extends AppCompatActivity {
         setTitle("Authorize Payment");
 
         extras = getIntent().getExtras();
+        cart = (Cart) (extras != null ? extras.getSerializable("cart") : null);
 
         TextView amt = findViewById(R.id.payAmt);
         TextView card = findViewById(R.id.userCard);

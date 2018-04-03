@@ -16,8 +16,7 @@ import dbs.Databases;
 import misc.Adapters;
 
 public class VendorHomepage extends AppCompatActivity {
-    private Bundle extras;
-    private final int id = extras != null ? extras.getInt("id") : 0;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -25,7 +24,8 @@ public class VendorHomepage extends AppCompatActivity {
         setContentView(R.layout.activity_vendor_homepage);
         setTitle("Home");
 
-        extras = getIntent().getExtras();
+        Bundle extras = getIntent().getExtras();
+        id = extras != null ? extras.getInt("id") : 0;
 
         RecyclerView rv = findViewById(R.id.rv_vendor_layout);
 

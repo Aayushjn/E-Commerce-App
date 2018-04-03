@@ -53,15 +53,6 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:focusable="true" />
-
-                <!-- <TextView
-                    android:id="@+id/tv_quantity_selected"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:text="1"/> -->
             </LinearLayout>
 
             <LinearLayout
@@ -85,15 +76,6 @@
                     android:layout_height="wrap_content"
                     android:clickable="true"
                     android:focusable="true" />
-
-                <!-- TextView
-                    android:id="@+id/tv_size_selected"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="10dp"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    android:text="32"/> -->
             </LinearLayout>
 
             <TextView
