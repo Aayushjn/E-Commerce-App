@@ -79,16 +79,6 @@
                 android:textColor="#2d2d2d"
                 android:textSize="13sp" />
 
-            <TextView
-                android:id="@+id/tv_item_size"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:padding="7dp"
-                android:text="@string/size"
-                android:textColor="#2d2d2d"
-                android:textSize="13sp" />
-
             <Button
                 android:id="@+id/btn_remove_from_cart"
                 android:layout_weight="1"

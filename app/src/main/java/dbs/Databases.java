@@ -18,7 +18,12 @@ public class Databases {
         public void migrate(@NonNull SupportSQLiteDatabase database) {}
     };
 
-    @Database(entities = {Entities.UserEntity.class}, version = 2)
+    static final Migration MIGRATION_2_3 = new Migration(2, 3) {
+        @Override
+        public void migrate(@NonNull SupportSQLiteDatabase database) {}
+    };
+
+    @Database(entities = {Entities.UserEntity.class}, version = 3)
     public abstract static class UserDatabase extends RoomDatabase{
         private static UserDatabase INSTANCE;
 
@@ -26,8 +31,9 @@ public class Databases {
 
         public static UserDatabase getUserDatabase(Context context){
             if (INSTANCE == null) {
-                INSTANCE = Room.inMemoryDatabaseBuilder(context.getApplicationContext(),
-                        UserDatabase.class).addMigrations(MIGRATION_1_2).build();
+                INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                        UserDatabase.class, "userDB").addMigrations(MIGRATION_1_2,
+                        MIGRATION_2_3).build();
             }
             return INSTANCE;
         }
@@ -37,7 +43,7 @@ public class Databases {
         }
     }
 
-    @Database(entities = {Entities.VendorEntity.class, Entities.ProductEntity.class}, version = 2)
+    @Database(entities = {Entities.VendorEntity.class, Entities.ProductEntity.class}, version = 3)
     public abstract static class VendorDatabase extends RoomDatabase{
         private static VendorDatabase INSTANCE;
 
@@ -45,8 +51,9 @@ public class Databases {
 
         public static VendorDatabase getVendorDatabase(Context context){
             if (INSTANCE == null) {
-                INSTANCE = Room.inMemoryDatabaseBuilder(context.getApplicationContext(),
-                        VendorDatabase.class).addMigrations(MIGRATION_1_2).build();
+                INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                        VendorDatabase.class, "vendorDB").addMigrations(MIGRATION_1_2,
+                        MIGRATION_2_3).build();
             }
             return INSTANCE;
         }
@@ -57,7 +64,7 @@ public class Databases {
     }
 
     @Database(entities = {Entities.PaymentEntity.class, Entities.VendorEntity.class,
-            Entities.UserEntity.class, Entities.ProductEntity.class}, version = 2)
+            Entities.UserEntity.class, Entities.ProductEntity.class}, version = 3)
     public abstract static class PaymentDatabase extends RoomDatabase{
         private static PaymentDatabase INSTANCE;
 
@@ -65,8 +72,9 @@ public class Databases {
 
         public static PaymentDatabase getPaymentDatabase(Context context){
             if (INSTANCE == null) {
-                INSTANCE = Room.inMemoryDatabaseBuilder(context.getApplicationContext(),
-                        PaymentDatabase.class).addMigrations(MIGRATION_1_2).build();
+                INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                        PaymentDatabase.class, "paymentDB").addMigrations(MIGRATION_1_2,
+                        MIGRATION_2_3).build();
             }
             return INSTANCE;
         }
@@ -76,7 +84,7 @@ public class Databases {
         }
     }
 
-    @Database(entities = {Entities.ProductEntity.class, Entities.VendorEntity.class}, version = 2)
+    @Database(entities = {Entities.ProductEntity.class, Entities.VendorEntity.class}, version = 3)
     public abstract static class ProductDatabase extends RoomDatabase{
         private static ProductDatabase INSTANCE;
 
@@ -84,8 +92,9 @@ public class Databases {
 
         public static ProductDatabase getProductDatabase(Context context){
             if (INSTANCE == null) {
-                INSTANCE = Room.inMemoryDatabaseBuilder(context.getApplicationContext(),
-                        ProductDatabase.class).addMigrations(MIGRATION_1_2).build();
+                INSTANCE = Room.databaseBuilder(context.getApplicationContext(),
+                        ProductDatabase.class, "productDB").addMigrations(MIGRATION_1_2,
+                        MIGRATION_2_3).build();
             }
             return INSTANCE;
         }

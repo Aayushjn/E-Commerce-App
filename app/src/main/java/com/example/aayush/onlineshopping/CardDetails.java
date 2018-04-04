@@ -1,7 +1,6 @@
 package com.example.aayush.onlineshopping;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -66,7 +65,7 @@ class CardThread extends Thread {
         paymentDB = Databases.PaymentDatabase.getPaymentDatabase(current);
         payAcc = paymentDB.paymentDAO();
 
-        String pin1, pin2, errorString = null;
+        String pin1, pin2;
         long cardNo;
 
         cardNo = Long.parseLong(cardText.getText().toString());
@@ -74,10 +73,10 @@ class CardThread extends Thread {
         pin2 = pin2Text.getText().toString();
 
         if((Long.toString(cardNo) == null) || (pin1 == null) || (pin2 == null)){
-            errorString = "Fields Cannot be null";
+            toast("Fields Cannot be null");
         }
         else if(!pin1.equals(pin2)){
-            errorString = "Passwords do not Match";
+            toast("Passwords do not Match");
         }
         else{
             byte[] salt = new byte[0];
@@ -91,10 +90,10 @@ class CardThread extends Thread {
             String hashedPIN = PasswordOps.getSecurePassword(pin1, salt);
             Entities.PaymentEntity cardDet = new Entities.PaymentEntity(id, cardNo, hashedPIN,
                     10000, new String(salt));
+            toast("Account added");
             payAcc.insertCard(cardDet);
             Intent move = new Intent(current, WelcomeScreen.class);
             current.startActivity(move);
         }
-        toast(errorString);
     }
 }

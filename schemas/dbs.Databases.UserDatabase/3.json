@@ -1,0 +1,63 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 3,
+    "identityHash": "4e0c11963e05bacdbcde4258c1f605e0",
+    "entities": [
+      {
+        "tableName": "users",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `address` TEXT, `emailId` TEXT NOT NULL, `name` TEXT, `password` TEXT, `salt` TEXT, PRIMARY KEY(`emailId`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "address",
+            "columnName": "address",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "emailId",
+            "columnName": "emailId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "password",
+            "columnName": "password",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "salt",
+            "columnName": "salt",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "emailId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"4e0c11963e05bacdbcde4258c1f605e0\")"
+    ]
+  }
+}

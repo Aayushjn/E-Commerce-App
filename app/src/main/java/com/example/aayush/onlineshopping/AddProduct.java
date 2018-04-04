@@ -1,7 +1,6 @@
 package com.example.aayush.onlineshopping;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.Spinner;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +23,6 @@ public class AddProduct extends AppCompatActivity {
     private Bundle extras;
 
     private String category;
-    private int size;
 
     EditText nameText;
     EditText qtyText;
@@ -37,7 +34,6 @@ public class AddProduct extends AppCompatActivity {
         setContentView(R.layout.activity_add_product);
 
         Spinner catSpin = findViewById(R.id.spinnerCat);
-        Spinner sizeSpin = findViewById(R.id.spinnerSize);
         nameText = findViewById(R.id.prodName);
         qtyText = findViewById(R.id.prodQuant);
         priceText = findViewById(R.id.prodPrice);
@@ -50,13 +46,6 @@ public class AddProduct extends AppCompatActivity {
         categoryArray.add("Electronics");
         categoryArray.add("Furniture");
         categoryArray.add("Food");
-        
-        List<Integer> sizeArray = new ArrayList<>();
-        sizeArray.add(32);
-        sizeArray.add(34);
-        sizeArray.add(36);
-        sizeArray.add(38);
-        sizeArray.add(40);
 
         ArrayAdapter<String> catAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_list_item_1, categoryArray);
@@ -71,20 +60,6 @@ public class AddProduct extends AppCompatActivity {
             @Override
             public void onNothingSelected(AdapterView<?> parent) {}
         });
-
-        ArrayAdapter<Integer> sizeAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_list_item_1, sizeArray);
-        sizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        sizeSpin.setAdapter(sizeAdapter);
-        sizeSpin.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                size = Integer.parseInt(parent.getItemAtPosition(position).toString());
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {}
-        });
     }
 
     public void addProduct(View view){
@@ -93,7 +68,7 @@ public class AddProduct extends AppCompatActivity {
         String name = nameText.getText().toString();
 
         ProductThread productThread = new ProductThread(this, extras, name,
-                category, size, price, qty);
+                category, price, qty);
         productThread.start();
     }
 }
@@ -103,17 +78,15 @@ class ProductThread extends Thread {
     private int qty;
     private String name;
     private String category;
-    private int size;
     private Bundle extras;
     private Activity current;
 
-    ProductThread(Activity current, Bundle extras, String name, String category, int size,
-                  float price, int qty){
+    ProductThread(Activity current, Bundle extras, String name, String category, float price,
+                  int qty){
         this.current = current;
         this.extras = extras;
         this.name = name;
         this.category = category;
-        this.size = size;
         this.price = price;
         this.qty = qty;
     }
@@ -121,14 +94,14 @@ class ProductThread extends Thread {
     @Override
     public void run() {
         if(Float.toString(price) != null && Integer.toString(qty) != null &&
-                name != null && category != null && Integer.toString(size) != null){
+                name != null && category != null){
             assert extras != null;
             int id = extras.getInt("id");
             Databases.ProductDatabase productDatabase =
                     Databases.ProductDatabase.getProductDatabase(current);
             DAOs.ProductDAO productDAO = productDatabase.productDAO();
             Entities.ProductEntity product = new Entities.ProductEntity(price, qty, category, name,
-                    Integer.toString(size), id);
+                    id);
 
             productDAO.insertProduct(product);
 

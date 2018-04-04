@@ -57,6 +57,9 @@ public class DAOs {
         @Query("SELECT DISTINCT category FROM products WHERE vendor = :vendId")
         Cursor getDistinctCategories(int vendId);
 
+        @Query("SELECT * FROM products WHERE vendor = :vendId")
+        Cursor getProductsByVendorId(int vendId);
+
         @Insert(onConflict = OnConflictStrategy.REPLACE)
         void insertProduct(Entities.ProductEntity product);
 

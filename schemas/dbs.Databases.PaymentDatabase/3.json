@@ -1,0 +1,207 @@
+{
+  "formatVersion": 1,
+  "database": {
+    "version": 3,
+    "identityHash": "b55a97bb96fb3a72d8c7c0f0ac6989b5",
+    "entities": [
+      {
+        "tableName": "cards",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`amount` REAL NOT NULL, `id` INTEGER NOT NULL, `card` INTEGER NOT NULL, `pin` TEXT, `salt` TEXT, PRIMARY KEY(`card`))",
+        "fields": [
+          {
+            "fieldPath": "amount",
+            "columnName": "amount",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cardNumber",
+            "columnName": "card",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "pin",
+            "columnName": "pin",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "salt",
+            "columnName": "salt",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "card"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "vendors",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `address` TEXT, `emailId` TEXT NOT NULL, `name` TEXT, `password` TEXT, `salt` TEXT, PRIMARY KEY(`emailId`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "address",
+            "columnName": "address",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "emailId",
+            "columnName": "emailId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "password",
+            "columnName": "password",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "salt",
+            "columnName": "salt",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "emailId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "users",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`id` INTEGER NOT NULL, `address` TEXT, `emailId` TEXT NOT NULL, `name` TEXT, `password` TEXT, `salt` TEXT, PRIMARY KEY(`emailId`))",
+        "fields": [
+          {
+            "fieldPath": "id",
+            "columnName": "id",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "address",
+            "columnName": "address",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "emailId",
+            "columnName": "emailId",
+            "affinity": "TEXT",
+            "notNull": true
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "password",
+            "columnName": "password",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "salt",
+            "columnName": "salt",
+            "affinity": "TEXT",
+            "notNull": false
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "emailId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      },
+      {
+        "tableName": "products",
+        "createSql": "CREATE TABLE IF NOT EXISTS `${TABLE_NAME}` (`prodId` INTEGER NOT NULL, `cost` REAL NOT NULL, `quantity` INTEGER NOT NULL, `category` TEXT, `name` TEXT, `vendor` INTEGER NOT NULL, PRIMARY KEY(`prodId`))",
+        "fields": [
+          {
+            "fieldPath": "prodId",
+            "columnName": "prodId",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "cost",
+            "columnName": "cost",
+            "affinity": "REAL",
+            "notNull": true
+          },
+          {
+            "fieldPath": "quantity",
+            "columnName": "quantity",
+            "affinity": "INTEGER",
+            "notNull": true
+          },
+          {
+            "fieldPath": "category",
+            "columnName": "category",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "name",
+            "columnName": "name",
+            "affinity": "TEXT",
+            "notNull": false
+          },
+          {
+            "fieldPath": "vendId",
+            "columnName": "vendor",
+            "affinity": "INTEGER",
+            "notNull": true
+          }
+        ],
+        "primaryKey": {
+          "columnNames": [
+            "prodId"
+          ],
+          "autoGenerate": false
+        },
+        "indices": [],
+        "foreignKeys": []
+      }
+    ],
+    "setupQueries": [
+      "CREATE TABLE IF NOT EXISTS room_master_table (id INTEGER PRIMARY KEY,identity_hash TEXT)",
+      "INSERT OR REPLACE INTO room_master_table (id,identity_hash) VALUES(42, \"b55a97bb96fb3a72d8c7c0f0ac6989b5\")"
+    ]
+  }
+}

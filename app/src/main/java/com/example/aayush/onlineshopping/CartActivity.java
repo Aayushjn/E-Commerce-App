@@ -15,6 +15,7 @@ public class CartActivity extends AppCompatActivity {
     private FloatingActionButton fab;
 
     private Cart cart;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +28,7 @@ public class CartActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             cart = (Cart) extras.getSerializable("cart");
+            id = extras.getInt("id");
         }
 
         assert cart != null;
@@ -51,6 +53,7 @@ public class CartActivity extends AppCompatActivity {
     public void proceedToPay(View view){
         Intent payIntent = new Intent(this, PaymentAuth.class);
         payIntent.putExtra("cart", cart);
+        payIntent.putExtra("id", id);
         startActivity(payIntent);
     }
 
@@ -58,6 +61,7 @@ public class CartActivity extends AppCompatActivity {
     public void onBackPressed() {
         Intent backIntent = new Intent(this, CategoryPage.class);
         backIntent.putExtra("cart", cart);
+        backIntent.putExtra("id", id);
         startActivity(backIntent);
 
         super.onBackPressed();

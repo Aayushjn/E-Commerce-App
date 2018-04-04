@@ -19,13 +19,13 @@ import misc.Item;
 public class ProductActivity extends AppCompatActivity {
     private Cart cart;
 
-    private int temp_size;
     private int temp_quantity;
 
     private String name;
     private String category;
     private String price;
     private int imageId;
+    private int id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,43 +37,16 @@ public class ProductActivity extends AppCompatActivity {
         name = extras != null ? extras.getString("name") : null;
         category = extras != null ? extras.getString("category") : null;
         price = extras != null ? extras.getString("price") : null;
-        int size = extras != null ? extras.getInt("size") : -1;
         imageId = extras != null ? extras.getInt("image") : 0;
+        id = extras != null ? extras.getInt("id") : 0;
+
 
         TextView nameTextView = findViewById(R.id.productName);
         TextView categoryTextView = findViewById(R.id.category);
         TextView priceTextView = findViewById(R.id.price);
-        Spinner sizeSpinner = findViewById(R.id.sizeSpinner);
         Spinner qtySpinner = findViewById(R.id.qtySpinner);
         //ImageView image = findViewById(R.id.productImage);
 
-        if(size != -1) {
-            List<Integer> sizeComponents = new ArrayList<>();
-            sizeComponents.add(32);
-            sizeComponents.add(34);
-            sizeComponents.add(36);
-            sizeComponents.add(38);
-            sizeComponents.add(40);
-
-            ArrayAdapter<Integer> sizeAdapter = new ArrayAdapter<>(this,
-                    android.R.layout.simple_spinner_item, sizeComponents);
-            sizeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            sizeSpinner.setAdapter(sizeAdapter);
-
-            sizeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-                @Override
-                public void onItemSelected(AdapterView<?> parent, View view, int position,
-                                           long id) {
-                    temp_size = ((Integer) parent.getItemAtPosition(position));
-                }
-
-                @Override
-                public void onNothingSelected(AdapterView<?> adapterView) {}
-            });
-        }
-        else{
-            sizeSpinner.setVisibility(View.GONE);
-        }
 
         List<Integer> qtyComponents = new ArrayList<>();
         qtyComponents.add(1);
@@ -105,16 +78,17 @@ public class ProductActivity extends AppCompatActivity {
 
     public void addToCart(View view){
         Cart userCart;
-        Item item = new Item(name, category, Float.parseFloat(price), temp_quantity, temp_size,
-                imageId);
+        Item item = new Item(name, category, Float.parseFloat(price), temp_quantity, imageId);
         Intent cartIntent = new Intent(this, CartActivity.class);
         if(cart == null) {
             userCart = new Cart();
             userCart.addItem(item);
+            cartIntent.putExtra("id", id);
             cartIntent.putExtra("cart", userCart);
         }
         else{
             cart.getItemList().add(item);
+            cartIntent.putExtra("id", id);
             cartIntent.putExtra("cart", cart);
         }
         Toast.makeText(getApplicationContext(), "Item added", Toast.LENGTH_SHORT).show();

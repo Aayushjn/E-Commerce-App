@@ -98,7 +98,7 @@ class VendorThread extends Thread {
             else{
                 Intent nextPage = new Intent(current, VendorHomepage.class);
                 int vendID = vendor.getId();
-                nextPage.putExtra("vendID",vendID);
+                nextPage.putExtra("id", vendID);
                 current.startActivity(nextPage);
             }
         }
@@ -134,8 +134,8 @@ class UserThread extends Thread {
             }
             else{
                 Intent nextPage = new Intent(current, CategoryPage.class);
-                int vendID = user.getId();
-                nextPage.putExtra("vendID", vendID);
+                int id = user.getId();
+                nextPage.putExtra("id", id);
                 current.startActivity(nextPage);
             }
         }

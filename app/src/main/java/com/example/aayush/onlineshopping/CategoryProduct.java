@@ -1,7 +1,6 @@
 package com.example.aayush.onlineshopping;
 
 import android.app.Activity;
-import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -27,18 +26,17 @@ public class CategoryProduct extends AppCompatActivity {
         setContentView(R.layout.activity_product_page);
 
         Bundle extras = getIntent().getExtras();
-        int categoryFlag = 1;
+        assert extras != null;
+        int categoryFlag = extras.getInt("categoryFlag");
+        int id = extras.getInt("id");
 
-        if(extras != null) {
-            if (extras.getSerializable("cart") != null) {
-                cart = (Cart) extras.getSerializable("cart");
-            }
-            categoryFlag = extras.getInt("categoryFlag");
+        if (extras.getSerializable("cart") != null) {
+            cart = (Cart) extras.getSerializable("cart");
         }
 
         RecyclerView rv = findViewById(R.id.rv_item_display_layout);
 
-        DBThread dbThread = new DBThread(categoryFlag, this, cart, rv);
+        DBThread dbThread = new DBThread(categoryFlag, this, cart, rv, id);
         dbThread.start();
     }
 }
@@ -48,12 +46,14 @@ class DBThread extends Thread{
     private Activity current;
     private Cart cart;
     private RecyclerView rv;
+    private int id;
 
-    DBThread(int categoryFlag, Activity current, Cart cart, RecyclerView rv){
+    DBThread(int categoryFlag, Activity current, Cart cart, RecyclerView rv, int id){
         this.categoryFlag = categoryFlag;
         this.current = current;
         this.cart = cart;
         this.rv = rv;
+        this.id = id;
     }
 
     @Override
@@ -75,10 +75,9 @@ class DBThread extends Thread{
                     while(!c.isAfterLast()){
                         String name = c.getString(c.getColumnIndex("name"));
                         String category = c.getString(c.getColumnIndex("category"));
-                        String size = c.getString(c.getColumnIndex("size"));
                         int qty = c.getInt(c.getColumnIndex("quantity"));
                         float cost = c.getFloat(c.getColumnIndex("cost"));
-                        item = new Item(name, category, cost, qty, Integer.parseInt(size), 0);
+                        item = new Item(name, category, cost, qty, 0);
                         items_list.add(item);
                         c.moveToNext();
                     }
@@ -91,10 +90,9 @@ class DBThread extends Thread{
                     while(!c.isAfterLast()){
                         String name = c.getString(c.getColumnIndex("name"));
                         String category = c.getString(c.getColumnIndex("category"));
-                        String size = c.getString(c.getColumnIndex("size"));
                         int qty = c.getInt(c.getColumnIndex("quantity"));
                         float cost = c.getFloat(c.getColumnIndex("cost"));
-                        item = new Item(name, category, cost, qty, Integer.parseInt(size), 0);
+                        item = new Item(name, category, cost, qty, 0);
                         items_list.add(item);
                         c.moveToNext();
                     }
@@ -107,10 +105,9 @@ class DBThread extends Thread{
                     while(!c.isAfterLast()){
                         String name = c.getString(c.getColumnIndex("name"));
                         String category = c.getString(c.getColumnIndex("category"));
-                        String size = c.getString(c.getColumnIndex("size"));
                         int qty = c.getInt(c.getColumnIndex("quantity"));
                         float cost = c.getFloat(c.getColumnIndex("cost"));
-                        item = new Item(name, category, cost, qty, Integer.parseInt(size), 0);
+                        item = new Item(name, category, cost, qty, 0);
                         items_list.add(item);
                         c.moveToNext();
                     }
@@ -123,10 +120,9 @@ class DBThread extends Thread{
                     while(!c.isAfterLast()){
                         String name = c.getString(c.getColumnIndex("name"));
                         String category = c.getString(c.getColumnIndex("category"));
-                        String size = c.getString(c.getColumnIndex("size"));
                         int qty = c.getInt(c.getColumnIndex("quantity"));
                         float cost = c.getFloat(c.getColumnIndex("cost"));
-                        item = new Item(name, category, cost, qty, Integer.parseInt(size), 0);
+                        item = new Item(name, category, cost, qty, 0);
                         items_list.add(item);
                         c.moveToNext();
                     }
@@ -139,10 +135,9 @@ class DBThread extends Thread{
                     while(!c.isAfterLast()){
                         String name = c.getString(c.getColumnIndex("name"));
                         String category = c.getString(c.getColumnIndex("category"));
-                        String size = c.getString(c.getColumnIndex("size"));
                         int qty = c.getInt(c.getColumnIndex("quantity"));
                         float cost = c.getFloat(c.getColumnIndex("cost"));
-                        item = new Item(name, category, cost, qty, Integer.parseInt(size), 0);
+                        item = new Item(name, category, cost, qty, 0);
                         items_list.add(item);
                         c.moveToNext();
                     }
@@ -155,10 +150,9 @@ class DBThread extends Thread{
                     while(!c.isAfterLast()){
                         String name = c.getString(c.getColumnIndex("name"));
                         String category = c.getString(c.getColumnIndex("category"));
-                        String size = c.getString(c.getColumnIndex("size"));
                         int qty = c.getInt(c.getColumnIndex("quantity"));
                         float cost = c.getFloat(c.getColumnIndex("cost"));
-                        item = new Item(name, category, cost, qty, Integer.parseInt(size), 0);
+                        item = new Item(name, category, cost, qty, 0);
                         items_list.add(item);
                         c.moveToNext();
                     }
@@ -171,7 +165,7 @@ class DBThread extends Thread{
 
 
         Adapters.RecyclerViewAdapter myAdapter = new Adapters.RecyclerViewAdapter(current,
-                items_list, cart);
+                items_list, cart, id);
         rv.setLayoutManager(new GridLayoutManager(current, 3));
         rv.setAdapter(myAdapter);
     }

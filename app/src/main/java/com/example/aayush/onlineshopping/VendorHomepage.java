@@ -1,7 +1,6 @@
 package com.example.aayush.onlineshopping;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
@@ -15,6 +14,7 @@ import java.util.ArrayList;
 import dbs.DAOs;
 import dbs.Databases;
 import misc.Adapters;
+import misc.Item;
 
 public class VendorHomepage extends AppCompatActivity {
     private int id;
@@ -60,18 +60,23 @@ class VendorHomepageThread extends Thread {
         DAOs.ProductDAO productDAO = productDatabase.productDAO();
 
         Cursor c;
-        ArrayList<String> categoryList = new ArrayList<>();
-        c = productDAO.getDistinctCategories(id);
+        ArrayList<Item> productList = new ArrayList<>();
+        Item item;
+        c = productDAO.getProductsByVendorId(id);
         if(c.moveToFirst()){
             while(!c.isAfterLast()){
+                String name = c.getString(c.getColumnIndex("name"));
                 String category = c.getString(c.getColumnIndex("category"));
-                categoryList.add(category);
+                float price = c.getFloat(c.getColumnIndex("cost"));
+                int qty = c.getInt(c.getColumnIndex("quantity"));
+                item = new Item(name, category, price, qty, 0);
+                productList.add(item);
                 c.moveToNext();
             }
         }
         c.close();
 
-        Adapters.RVVendorAdapter myAdapter = new Adapters.RVVendorAdapter(current, categoryList);
+        Adapters.RVVendorAdapter myAdapter = new Adapters.RVVendorAdapter(current, productList);
         rv.setLayoutManager(new GridLayoutManager(current, 3));
         rv.setAdapter(myAdapter);
     }

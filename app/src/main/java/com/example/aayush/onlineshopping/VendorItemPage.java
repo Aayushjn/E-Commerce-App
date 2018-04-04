@@ -1,7 +1,6 @@
 package com.example.aayush.onlineshopping;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -12,8 +11,11 @@ import dbs.DAOs;
 import dbs.Databases;
 import dbs.Entities;
 
+import static xdroid.toaster.Toaster.toast;
+
 public class VendorItemPage extends AppCompatActivity {
     private Bundle extras;
+    TextView pQuantity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,8 +25,8 @@ public class VendorItemPage extends AppCompatActivity {
         extras = getIntent().getExtras();
 
         assert extras != null;
-        String name = extras.getString("productName");
-        String category = extras.getString("productCategory");
+        String name = extras.getString("name");
+        String category = extras.getString("category");
         float price = extras.getFloat("price");
         int quantity = extras.getInt("quantity");
         TextView pName = findViewById(R.id.productName);
@@ -33,8 +35,8 @@ public class VendorItemPage extends AppCompatActivity {
         pCategory.setText(category);
         TextView pPrice = findViewById(R.id.productPrice);
         pPrice.setText(String.valueOf(price));
-        TextView pQuantity = findViewById(R.id.productQuantity);
-        pQuantity.setText(quantity);
+        pQuantity = findViewById(R.id.productQuantity);
+        pQuantity.setText(String.valueOf(quantity));
     }
 
     public void deleteProduct(View view){
@@ -43,9 +45,7 @@ public class VendorItemPage extends AppCompatActivity {
     }
 
     public void updateQuantity(View view){
-        TextView quantity = findViewById(R.id.productQuantity);
-
-        UpdateThread updateThread = new UpdateThread(this, extras, quantity);
+        UpdateThread updateThread = new UpdateThread(this, extras, pQuantity);
         updateThread.start();
     }
 }
@@ -68,11 +68,12 @@ class DeleteThread extends Thread {
 
         assert extras != null;
         Entities.ProductEntity prod =
-                productDAO.getProductByCategoryAndName(extras.getString("productName"),
-                        extras.getString("productCategory"));
+                productDAO.getProductByCategoryAndName(extras.getString("category"),
+                        extras.getString("name"));
         productDAO.deleteProduct(prod);
+        toast("Product deleted");
         Intent reload = new Intent(current, VendorHomepage.class);
-        reload.putExtra("id", extras.getIntArray("id"));
+        reload.putExtra("id", extras.getInt("id"));
         current.startActivity(reload);
     }
 }
@@ -97,13 +98,14 @@ class UpdateThread extends Thread {
 
         assert extras != null;
         Entities.ProductEntity prod =
-                productDAO.getProductByCategoryAndName(extras.getString("productName"),
-                        extras.getString("productCategory"));
+                productDAO.getProductByCategoryAndName(extras.getString("category"),
+                        extras.getString("name"));
 
         prod.setQuantity(Integer.parseInt(quantity.getText().toString()));
         productDAO.updateProduct(prod);
+        toast("Product updated");
         Intent reload = new Intent(current, VendorItemPage.class);
-        reload.putExtra("id", extras.getIntArray("id"));
+        reload.putExtra("id", extras.getInt("id"));
         current.startActivity(reload);
     }
 }

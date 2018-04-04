@@ -27,11 +27,13 @@ public interface Adapters{
         private final Context current;
         private final List<Item> data;
         private final Cart cart;
+        private final int id;
 
-        public RecyclerViewAdapter(Context current, List<Item> data, Cart cart) {
+        public RecyclerViewAdapter(Context current, List<Item> data, Cart cart, int id) {
             this.current = current;
             this.data = data;
             this.cart = cart;
+            this.id = id;
         }
 
         @NonNull
@@ -60,10 +62,10 @@ public interface Adapters{
                             data.get(holder.getAdapterPosition()).getPrice());
                     intent.putExtra("quantity",
                             data.get(holder.getAdapterPosition()).getQuantity());
-                    intent.putExtra("size", data.get(holder.getAdapterPosition()).getSize());
                     intent.putExtra("image",
                             data.get(holder.getAdapterPosition()).getImage());
                     intent.putExtra("cart", cart);
+                    intent.putExtra("id", id);
 
                     current.startActivity(intent);
                 }
@@ -116,14 +118,7 @@ public interface Adapters{
             holder.itemCategory.setText(data.get(holder.getAdapterPosition()).getCategory());
             holder.itemPrice.setText(data.get(holder.getAdapterPosition()).getPrice());
 
-            if(data.get(holder.getAdapterPosition()).getSize() != -1) {
-                holder.itemSize.setText(data.get(holder.getAdapterPosition()).getSize());
-            }
-            else {
-                holder.itemSize.setVisibility(View.GONE);
-            }
-
-            holder.itemQty.setText(data.get(holder.getAdapterPosition()).getQuantity());
+            holder.itemQty.setText(String.valueOf(data.get(holder.getAdapterPosition()).getQuantity()));
             holder.itemImage.setImageResource(data.get(holder.getAdapterPosition()).getImage());
             holder.cardView.setEnabled(true);
 
@@ -145,7 +140,6 @@ public interface Adapters{
             final TextView itemName;
             final TextView itemCategory;
             final TextView itemPrice;
-            final TextView itemSize;
             final TextView itemQty;
             final ImageView itemImage;
             final Button itemRemove;
@@ -156,7 +150,6 @@ public interface Adapters{
                 itemName = itemView.findViewById(R.id.tv_item_name);
                 itemCategory = itemView.findViewById(R.id.tv_item_category);
                 itemPrice = itemView.findViewById(R.id.tv_item_price);
-                itemSize = itemView.findViewById(R.id.tv_item_size);
                 itemQty = itemView.findViewById(R.id.tv_item_quantity);
                 itemImage = itemView.findViewById(R.id.iv_item_image);
                 itemRemove = itemView.findViewById(R.id.btn_remove_from_cart);
@@ -167,9 +160,9 @@ public interface Adapters{
 
     class RVVendorAdapter extends RecyclerView.Adapter<RVVendorAdapter.CustomViewHolder> {
         private final Context current;
-        private final List<String> data;
+        private final List<Item> data;
 
-        public RVVendorAdapter(Context current, List<String> data){
+        public RVVendorAdapter(Context current, List<Item> data){
             this.current = current;
             this.data = data;
         }
@@ -180,21 +173,25 @@ public interface Adapters{
                                                                    int viewType) {
             View view;
             LayoutInflater inflater = LayoutInflater.from(current);
-            view = inflater.inflate(R.layout.cardview_vendor_categories, parent,false);
+            view = inflater.inflate(R.layout.cardview_vendor_products, parent,false);
             return new RVVendorAdapter.CustomViewHolder(view);
         }
 
         @Override
         public void onBindViewHolder(@NonNull final RVVendorAdapter.CustomViewHolder holder,
                                      int position) {
-            holder.categoryName.setText(data.get(holder.getAdapterPosition()));
+            holder.categoryName.setText(data.get(holder.getAdapterPosition()).getName());
             holder.cardView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(current, VendorItemPage.class);
-
-                    intent.putExtra("category", data.get(holder.getAdapterPosition()));
-
+                    intent.putExtra("name", data.get(holder.getAdapterPosition()).getName());
+                    intent.putExtra("category",
+                            data.get(holder.getAdapterPosition()).getCategory());
+                    intent.putExtra("price",
+                            data.get(holder.getAdapterPosition()).getPrice());
+                    intent.putExtra("quantity",
+                            data.get(holder.getAdapterPosition()).getQuantity());
                     current.startActivity(intent);
                 }
             });

@@ -3,17 +3,15 @@ package com.example.aayush.onlineshopping;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.CardView;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import misc.Cart;
 
 public class CategoryPage extends AppCompatActivity {
-    private int categoryFlag;
-
     private Cart cart;
 
     @Override
@@ -21,23 +19,24 @@ public class CategoryPage extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_page);
 
-        Bundle extras = getIntent().getExtras();
-        cart = (Cart) (extras != null ? extras.getSerializable("cart") : null);
+        final Bundle extras = getIntent().getExtras();
+        assert extras != null;
+        cart = (Cart) extras.getSerializable("cart");
 
 
-        CardView clothes = findViewById(R.id.clothing);
-        CardView books = findViewById(R.id.books);
-        CardView appliances = findViewById(R.id.appliances);
-        CardView electronics = findViewById(R.id.electronics);
-        CardView furniture = findViewById(R.id.furniture);
-        CardView food = findViewById(R.id.food);
+        ImageView clothes = findViewById(R.id.clothingImage);
+        ImageView books = findViewById(R.id.booksImage);
+        ImageView appliances = findViewById(R.id.appliancesImage);
+        ImageView electronics = findViewById(R.id.electronicsImage);
+        ImageView furniture = findViewById(R.id.furnitureImage);
+        ImageView food = findViewById(R.id.foodImage);
 
         clothes.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categoryFlag = 1;
                 Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
-                intent.putExtra("categoryFlag", categoryFlag);
+                intent.putExtra("categoryFlag", 1);
+                intent.putExtra("id", extras.getInt("id"));
                 if(cart != null){
                     intent.putExtra("cart", cart);
                 }
@@ -48,9 +47,9 @@ public class CategoryPage extends AppCompatActivity {
         books.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categoryFlag = 2;
                 Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
-                intent.putExtra("categoryFlag", categoryFlag);
+                intent.putExtra("categoryFlag", 2);
+                intent.putExtra("id", extras.getInt("id"));
                 if(cart != null){
                     intent.putExtra("cart", cart);
                     startActivity(intent);
@@ -61,9 +60,9 @@ public class CategoryPage extends AppCompatActivity {
         appliances.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categoryFlag = 3;
                 Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
-                intent.putExtra("categoryFlag", categoryFlag);
+                intent.putExtra("categoryFlag", 3);
+                intent.putExtra("id", extras.getInt("id"));
                 if(cart != null){
                     intent.putExtra("cart", cart);
                     startActivity(intent);
@@ -74,9 +73,9 @@ public class CategoryPage extends AppCompatActivity {
         electronics.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categoryFlag = 4;
                 Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
-                intent.putExtra("categoryFlag", categoryFlag);
+                intent.putExtra("categoryFlag", 4);
+                intent.putExtra("id", extras.getInt("id"));
                 if(cart != null){
                     intent.putExtra("cart", cart);
                     startActivity(intent);
@@ -87,9 +86,9 @@ public class CategoryPage extends AppCompatActivity {
         furniture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categoryFlag = 5;
                 Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
-                intent.putExtra("categoryFlag", categoryFlag);
+                intent.putExtra("categoryFlag", 5);
+                intent.putExtra("id", extras.getInt("id"));
                 if(cart != null){
                     intent.putExtra("cart", cart);
                     startActivity(intent);
@@ -100,9 +99,9 @@ public class CategoryPage extends AppCompatActivity {
         food.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                categoryFlag = 6;
                 Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
-                intent.putExtra("categoryFlag", categoryFlag);
+                intent.putExtra("categoryFlag", 6);
+                intent.putExtra("id", extras.getInt("id"));
                 if(cart != null){
                     intent.putExtra("cart", cart);
                     startActivity(intent);

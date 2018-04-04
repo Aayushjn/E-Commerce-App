@@ -2,12 +2,8 @@ package dbs;
 
 import android.arch.persistence.room.ColumnInfo;
 import android.arch.persistence.room.Entity;
-import android.arch.persistence.room.ForeignKey;
-import android.arch.persistence.room.Index;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
-
-import static android.arch.persistence.room.ForeignKey.CASCADE;
 
 /**
  * Created by Aayush on 13-Mar-18.
@@ -28,19 +24,15 @@ public class Entities {
         private String category;
         @ColumnInfo(name = "name")
         private String name;
-        @ColumnInfo(name = "size")
-        private String size;
         @ColumnInfo(name = "vendor")
         private int vendId;
 
-        public ProductEntity(float cost, int quantity, String category, String name, String size,
-                             int vendId) {
+        public ProductEntity(float cost, int quantity, String category, String name, int vendId) {
             setProdId(++counter);
             this.cost = cost;
             this.quantity = quantity;
             this.category = category;
             this.name = name;
-            this.size = size;
             this.vendId = vendId;
         }
 
@@ -86,14 +78,6 @@ public class Entities {
 
         public void setName(String name) {
             this.name = name;
-        }
-
-        public String getSize() {
-            return size;
-        }
-
-        public void setSize(String size) {
-            this.size = size;
         }
 
         public int getVendId() {

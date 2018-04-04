@@ -24,7 +24,6 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <android.support.v7.widget.CardView
-        android:id="@+id/clothing"
         android:layout_width="102dp"
         android:layout_height="101dp"
         android:layout_marginBottom="8dp"
@@ -33,8 +32,6 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:clickable="true"
-        android:focusable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.15"
@@ -43,6 +40,7 @@
         app:layout_constraintVertical_bias="0.27" >
 
         <ImageView
+            android:id="@+id/clothingImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:scaleType="centerCrop"
@@ -61,7 +59,6 @@
 
 
     <android.support.v7.widget.CardView
-        android:id="@+id/books"
         android:layout_width="102dp"
         android:layout_height="100dp"
         android:layout_marginBottom="8dp"
@@ -70,15 +67,14 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.833"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.267"
-        android:focusable="true">
+        app:layout_constraintVertical_bias="0.267">
         <ImageView
+            android:id="@+id/booksImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/books"
@@ -96,7 +92,6 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
-        android:id="@+id/appliances"
         android:layout_width="102dp"
         android:layout_height="100dp"
         android:layout_marginBottom="8dp"
@@ -105,21 +100,19 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="112dp"
-        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.437"
-        android:focusable="true">
+        app:layout_constraintVertical_bias="0.437">
         <ImageView
+            android:id="@+id/appliancesImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/appliances"
             android:scaleType="centerCrop"
             android:contentDescription="@string/appliances" />
-
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -132,7 +125,6 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
-        android:id="@+id/electronics"
         android:layout_width="102dp"
         android:layout_height="100dp"
         android:layout_marginBottom="8dp"
@@ -141,15 +133,14 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.833"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.611"
-        android:focusable="true">
+        app:layout_constraintVertical_bias="0.611">
         <ImageView
+            android:id="@+id/electronicsImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/electronics"
@@ -167,7 +158,6 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
-        android:id="@+id/furniture"
         android:layout_width="102dp"
         android:layout_height="100dp"
         android:layout_marginBottom="8dp"
@@ -176,15 +166,14 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="112dp"
-        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.15"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.922"
-        android:focusable="true">
+        app:layout_constraintVertical_bias="0.922">
         <ImageView
+            android:id="@+id/furnitureImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/furniture"
@@ -202,7 +191,6 @@
     </android.support.v7.widget.CardView>
 
     <android.support.v7.widget.CardView
-        android:id="@+id/food"
         android:layout_width="102dp"
         android:layout_height="100dp"
         android:layout_marginBottom="8dp"
@@ -211,15 +199,14 @@
         android:layout_marginLeft="8dp"
         android:layout_marginRight="8dp"
         android:layout_marginTop="8dp"
-        android:clickable="true"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.833"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.943"
-        android:focusable="true">
+        app:layout_constraintVertical_bias="0.943">
         <ImageView
+            android:id="@+id/foodImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:src="@drawable/food"
