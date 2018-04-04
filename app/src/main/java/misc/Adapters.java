@@ -18,10 +18,6 @@ import com.example.aayush.onlineshopping.VendorItemPage;
 
 import java.util.List;
 
-/**
- * Created by Aayush on 13-Mar-18.
- */
-
 public interface Adapters{
     class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.CustomViewHolder> {
         private final Context current;
@@ -95,9 +91,9 @@ public interface Adapters{
 
     class RVCartAdapter extends RecyclerView.Adapter<RVCartAdapter.CustomViewHolder> {
         private final Context current;
-        private final List<Item> data;
+        private final Cart data;
 
-        public RVCartAdapter(Context current, List<Item> data) {
+        public RVCartAdapter(Context current, Cart data) {
             this.current = current;
             this.data = data;
         }
@@ -114,18 +110,19 @@ public interface Adapters{
 
         @Override
         public void onBindViewHolder(@NonNull final CustomViewHolder holder, final int position) {
-            holder.itemName.setText(data.get(holder.getAdapterPosition()).getName());
-            holder.itemCategory.setText(data.get(holder.getAdapterPosition()).getCategory());
-            holder.itemPrice.setText(data.get(holder.getAdapterPosition()).getPrice());
+            holder.itemName.setText(data.getItemList().get(holder.getAdapterPosition()).getName());
+            holder.itemCategory.setText(data.getItemList().get(holder.getAdapterPosition()).getCategory());
+            holder.itemPrice.setText(data.getItemList().get(holder.getAdapterPosition()).getPrice());
 
-            holder.itemQty.setText(String.valueOf(data.get(holder.getAdapterPosition()).getQuantity()));
-            holder.itemImage.setImageResource(data.get(holder.getAdapterPosition()).getImage());
+            holder.itemQty.setText(String.valueOf(data.getItemList().get(holder.getAdapterPosition()).getQuantity()));
+            holder.itemImage.setImageResource(data.getItemList().get(holder.getAdapterPosition()).getImage());
             holder.cardView.setEnabled(true);
 
             holder.itemRemove.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    data.remove(holder.getAdapterPosition());
+                    data.removeItem(data.getItemList().get(holder.getAdapterPosition()).getName(),
+                            data.getItemList().get(holder.getAdapterPosition()).getCategory());
                     holder.cardView.setVisibility(View.GONE);
                 }
             });
@@ -133,7 +130,7 @@ public interface Adapters{
 
         @Override
         public int getItemCount() {
-            return data.size();
+            return data.getItemList().size();
         }
 
         public static class CustomViewHolder extends RecyclerView.ViewHolder {

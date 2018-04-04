@@ -9,8 +9,6 @@ public class Item implements Serializable{
     private int quantity;
     private int image;
 
-    public Item() {}
-
     public Item(String name, String category, float price, int quantity, int image) {
         this.name = name;
         this.category = category;

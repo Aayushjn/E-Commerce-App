@@ -8,10 +8,6 @@ import android.arch.persistence.room.Query;
 import android.arch.persistence.room.Update;
 import android.database.Cursor;
 
-/**
- * Created by Aayush on 19-Mar-18.
- */
-
 public class DAOs {
     @Dao
     public interface PaymentDAO{

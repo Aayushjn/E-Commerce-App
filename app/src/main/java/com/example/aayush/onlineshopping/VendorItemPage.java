@@ -105,7 +105,7 @@ class UpdateThread extends Thread {
         prod.setQuantity(Integer.parseInt(quantity.getText().toString()));
         productDAO.updateProduct(prod);
         toast("Product updated");
-        Intent reload = new Intent(current, VendorItemPage.class);
+        Intent reload = new Intent(current, VendorHomepage.class);
         reload.putExtra("id", extras.getInt("id"));
         current.startActivity(reload);
     }

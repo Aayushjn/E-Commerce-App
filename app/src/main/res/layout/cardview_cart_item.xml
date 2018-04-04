@@ -89,7 +89,6 @@
                 android:clickable="true"
                 android:layout_marginStart="4dp"
                 android:focusable="true" />
-            <!-- add the functionality for remove in cart in RVCartAdapter-->
         </LinearLayout>
     </LinearLayout>
 </android.support.v7.widget.CardView>

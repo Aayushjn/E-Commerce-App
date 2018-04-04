@@ -21,8 +21,6 @@ public class CategoryPage extends AppCompatActivity {
 
         final Bundle extras = getIntent().getExtras();
         assert extras != null;
-        cart = (Cart) extras.getSerializable("cart");
-
 
         ImageView clothes = findViewById(R.id.clothingImage);
         ImageView books = findViewById(R.id.booksImage);
@@ -37,8 +35,8 @@ public class CategoryPage extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
                 intent.putExtra("categoryFlag", 1);
                 intent.putExtra("id", extras.getInt("id"));
-                if(cart != null){
-                    intent.putExtra("cart", cart);
+                if(extras.getSerializable("cart") != null){
+                    intent.putExtra("cart", extras.getSerializable("cart"));
                 }
                 startActivity(intent);
             }
@@ -50,8 +48,8 @@ public class CategoryPage extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
                 intent.putExtra("categoryFlag", 2);
                 intent.putExtra("id", extras.getInt("id"));
-                if(cart != null){
-                    intent.putExtra("cart", cart);
+                if(extras.getSerializable("cart") != null){
+                    intent.putExtra("cart", extras.getSerializable("cart"));
                     startActivity(intent);
                 }
             }
@@ -63,8 +61,8 @@ public class CategoryPage extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
                 intent.putExtra("categoryFlag", 3);
                 intent.putExtra("id", extras.getInt("id"));
-                if(cart != null){
-                    intent.putExtra("cart", cart);
+                if(extras.getSerializable("cart") != null){
+                    intent.putExtra("cart", extras.getSerializable("cart"));
                     startActivity(intent);
                 }
             }
@@ -76,8 +74,8 @@ public class CategoryPage extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
                 intent.putExtra("categoryFlag", 4);
                 intent.putExtra("id", extras.getInt("id"));
-                if(cart != null){
-                    intent.putExtra("cart", cart);
+                if(extras.getSerializable("cart") != null){
+                    intent.putExtra("cart", extras.getSerializable("cart"));
                     startActivity(intent);
                 }
             }
@@ -89,8 +87,8 @@ public class CategoryPage extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
                 intent.putExtra("categoryFlag", 5);
                 intent.putExtra("id", extras.getInt("id"));
-                if(cart != null){
-                    intent.putExtra("cart", cart);
+                if(extras.getSerializable("cart") != null){
+                    intent.putExtra("cart", extras.getSerializable("cart"));
                     startActivity(intent);
                 }
             }
@@ -102,8 +100,8 @@ public class CategoryPage extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), CategoryProduct.class);
                 intent.putExtra("categoryFlag", 6);
                 intent.putExtra("id", extras.getInt("id"));
-                if(cart != null){
-                    intent.putExtra("cart", cart);
+                if(extras.getSerializable("cart") != null){
+                    intent.putExtra("cart", extras.getSerializable("cart"));
                     startActivity(intent);
                 }
             }

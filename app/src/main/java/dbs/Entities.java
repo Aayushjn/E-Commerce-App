@@ -5,10 +5,6 @@ import android.arch.persistence.room.Entity;
 import android.arch.persistence.room.PrimaryKey;
 import android.support.annotation.NonNull;
 
-/**
- * Created by Aayush on 13-Mar-18.
- */
-
 public class Entities {
     @Entity(tableName = "products")
     public static class ProductEntity {

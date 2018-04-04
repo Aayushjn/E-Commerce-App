@@ -89,7 +89,7 @@ class CardThread extends Thread {
             }
             String hashedPIN = PasswordOps.getSecurePassword(pin1, salt);
             Entities.PaymentEntity cardDet = new Entities.PaymentEntity(id, cardNo, hashedPIN,
-                    10000, new String(salt));
+                    100000, new String(salt));
             toast("Account added");
             payAcc.insertCard(cardDet);
             Intent move = new Intent(current, WelcomeScreen.class);

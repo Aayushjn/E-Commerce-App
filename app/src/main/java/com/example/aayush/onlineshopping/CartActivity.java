@@ -33,7 +33,7 @@ public class CartActivity extends AppCompatActivity {
 
         assert cart != null;
         Adapters.RVCartAdapter myAdapter = new Adapters.RVCartAdapter(this,
-                cart.getItemList());
+                cart);
         rView.setLayoutManager(new LinearLayoutManager(this));
         rView.setAdapter(myAdapter);
 

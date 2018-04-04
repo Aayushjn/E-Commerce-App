@@ -6,17 +6,19 @@ import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import dbs.DAOs;
 import dbs.Databases;
 import dbs.Entities;
 import misc.Cart;
+import misc.PasswordOps;
 
 import static xdroid.toaster.Toaster.toast;
-import static xdroid.toaster.Toaster.toastLong;
 
 public class PaymentAuth extends AppCompatActivity {
+    EditText pinText;
     private Bundle extras;
     private Cart cart;
 
@@ -32,6 +34,7 @@ public class PaymentAuth extends AppCompatActivity {
         TextView amt = findViewById(R.id.payAmt);
         TextView card = findViewById(R.id.userCard);
         TextView email = findViewById(R.id.userEmail);
+        pinText = findViewById(R.id.enterPIN);
 
         assert extras != null;
         OnCreateThread onCreateThread = new OnCreateThread(this, cart,
@@ -41,12 +44,16 @@ public class PaymentAuth extends AppCompatActivity {
 
     public void cancelPay(View view){
         Intent back = new Intent(this, CategoryPage.class);
+        back.putExtra("id", extras.getInt("id"));
+        toast("Payment canceled");
         startActivity(back);
     }
 
     public void confirmPay(View view){
+        String pin = pinText.getText().toString();
+
         assert extras != null;
-        PaymentThread paymentThread = new PaymentThread(this, cart, extras);
+        PaymentThread paymentThread = new PaymentThread(this, cart, extras, pin);
         paymentThread.start();
     }
 }
@@ -56,12 +63,14 @@ class PaymentThread extends Thread {
     private Cart cart;
     private Bundle extras;
     private int userId;
+    private String pin;
 
-    PaymentThread(Activity current, Cart cart, Bundle extras){
+    PaymentThread(Activity current, Cart cart, Bundle extras, String pin){
         this.current = current;
         this.cart = cart;
         this.extras = extras;
         this.userId = extras.getInt("id");
+        this.pin = pin;
     }
 
     @Override
@@ -81,37 +90,56 @@ class PaymentThread extends Thread {
         Entities.ProductEntity prod;
         Entities.VendorEntity vendor;
 
+        Cursor cursor = payAcc.getCardDetailsById(userId);
+        String salt = null;
+        String pinUser = null;
+
         assert cart != null;
         int cartQuantity = cart.getItemList().size();
         float userBalance = payAcc.getAmountById(userId);
 
         assert extras != null;
-        float cartValue = extras.getFloat("cartValue");
+        float cartValue = cart.getTotalCost();
 
-        if (userBalance < cartValue){
+        if(cursor.moveToFirst()){
+            salt = cursor.getString(cursor.getColumnIndex("salt"));
+            pinUser = cursor.getString(cursor.getColumnIndex("pin"));
+            cursor.close();
+        }
+
+        pin = PasswordOps.getSecurePassword(pin, salt != null ? salt.getBytes() : new byte[0]);
+
+        if(!pin.equals(pinUser)){
+            Intent intent = new Intent(current, CategoryPage.class);
+            toast("PIN doesn't match");
+            intent.putExtra("id", userId);
+            current.startActivity(intent);
+        }
+        else if (userBalance < cartValue){
             Intent exit = new Intent(current, CategoryPage.class);
             exit.putExtra("userId", userId);
             toast("Insufficient funds");
             current.startActivity(exit);
         }
+        else {
+            float vAmount;
+            for (int i = 0; i < cartQuantity; i++) {
+                vAmount = 0;
+                String category = cart.getItemList().get(i).getCategory();
+                String name = cart.getItemList().get(i).getName();
+                prod = productAcc.getProductByCategoryAndName(category, name);
+                vendor = vendAcc.getVendorById(prod.getVendId());
+                userBalance -= prod.getCost() * prod.getQuantity();
+                vAmount += prod.getCost() * prod.getQuantity();
+                payAcc.updateAmountById(vAmount, vendor.getId());
+            }
+            payAcc.updateAmountById(userBalance, userId);
 
-        float uAmount = 0, vAmount;
-        for(int i = 0;i < cartQuantity;i++){
-            vAmount = 0;
-            String category = cart.getItemList().get(i).getCategory();
-            String name = cart.getItemList().get(i).getName();
-            prod = productAcc.getProductByCategoryAndName(category, name);
-            vendor = vendAcc.getVendorById(prod.getVendId());
-            uAmount -= prod.getCost() * prod.getQuantity();
-            vAmount += prod.getCost() * prod.getQuantity();
-            payAcc.updateAmountById(vAmount, vendor.getId());
+            Intent paymentDone = new Intent(current, CategoryPage.class);
+            paymentDone.putExtra("userId", userId);
+            current.startActivity(paymentDone);
         }
-        payAcc.updateAmountById(uAmount, userId);
-
-        toastLong("Payment Complete!");
-        Intent paymentDone = new Intent(current, CategoryPage.class);
-        paymentDone.putExtra("userId", userId);
-        current.startActivity(paymentDone);
+        toast("Payment Complete!");
     }
 }
 

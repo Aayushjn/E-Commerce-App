@@ -5,10 +5,6 @@ import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.SecureRandom;
 
-/**
- * Created by Aayush on 29-Mar-18.
- */
-
 public class PasswordOps {
     public static String getSecurePassword(String passwordToHash, byte[] salt){
         String generatedPassword = null;

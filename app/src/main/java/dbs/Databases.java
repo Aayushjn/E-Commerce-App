@@ -8,10 +8,6 @@ import android.arch.persistence.room.migration.Migration;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-/**
- * Created by Aayush on 19-Mar-18.
- */
-
 public class Databases {
     static final Migration MIGRATION_1_2 = new Migration(1, 2) {
         @Override
