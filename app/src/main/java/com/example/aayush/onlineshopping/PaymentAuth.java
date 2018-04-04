@@ -2,6 +2,7 @@ package com.example.aayush.onlineshopping;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -30,10 +31,11 @@ public class PaymentAuth extends AppCompatActivity {
 
         TextView amt = findViewById(R.id.payAmt);
         TextView card = findViewById(R.id.userCard);
+        TextView email = findViewById(R.id.userEmail);
 
         assert extras != null;
         OnCreateThread onCreateThread = new OnCreateThread(this, cart,
-                extras.getInt("id"), amt, card);
+                extras.getInt("id"), amt, card, email);
         onCreateThread.start();
     }
 
@@ -119,13 +121,15 @@ class OnCreateThread extends Thread {
     private int userId;
     private TextView amt;
     private TextView card;
+    private TextView emailId;
 
-    OnCreateThread(Activity current, Cart cart, int id, TextView amt, TextView card){
+    OnCreateThread(Activity current, Cart cart, int id, TextView amt, TextView card, TextView emailId){
         this.current = current;
         this.cart = cart;
         this.userId = id;
         this.amt = amt;
         this.card = card;
+        this.emailId = emailId;
     }
 
     @Override
@@ -135,10 +139,19 @@ class OnCreateThread extends Thread {
         Entities.UserEntity user = userDAO.getUserById(userId);
         Databases.PaymentDatabase paymentDB = Databases.PaymentDatabase.getPaymentDatabase(current);
         DAOs.PaymentDAO paymentDAO = paymentDB.paymentDAO();
-        Entities.PaymentEntity pay = paymentDAO.getCardDetailsById(userId);
+        Cursor pay = paymentDAO.getCardDetailsById(userId);
+        long cardNo = 0;
+
+        if(pay.moveToFirst()){
+            cardNo = pay.getLong(pay.getColumnIndex("card"));
+            pay.close();
+        }
+        else{
+            toast("Is null");
+        }
         assert cart != null;
         amt.setText(String.valueOf(cart.getTotalCost()));
-        amt.setText(user.getEmailId());
-        card.setText(String.valueOf(pay.getCardNumber()));
+        emailId.setText(user.getEmailId());
+        card.setText(String.valueOf(cardNo));
     }
 }

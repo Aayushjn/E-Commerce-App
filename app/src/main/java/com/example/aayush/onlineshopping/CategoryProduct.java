@@ -47,6 +47,7 @@ class DBThread extends Thread{
     private Cart cart;
     private RecyclerView rv;
     private int id;
+    private ArrayList<Item> items_list;
 
     DBThread(int categoryFlag, Activity current, Cart cart, RecyclerView rv, int id){
         this.categoryFlag = categoryFlag;
@@ -58,7 +59,7 @@ class DBThread extends Thread{
 
     @Override
     public void run() {
-        ArrayList<Item> items_list = new ArrayList<>();
+        items_list = new ArrayList<>();
         Cursor c;
         Item item;
 
@@ -163,10 +164,14 @@ class DBThread extends Thread{
                 Log.e("WTF", "How did this happen?!?!");
         }
 
-
-        Adapters.RecyclerViewAdapter myAdapter = new Adapters.RecyclerViewAdapter(current,
-                items_list, cart, id);
-        rv.setLayoutManager(new GridLayoutManager(current, 3));
-        rv.setAdapter(myAdapter);
+        current.runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Adapters.RecyclerViewAdapter myAdapter = new Adapters.RecyclerViewAdapter(current,
+                        items_list, cart, id);
+                rv.setLayoutManager(new GridLayoutManager(current, 3));
+                rv.setAdapter(myAdapter);
+            }
+        });
     }
 }

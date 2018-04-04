@@ -16,10 +16,7 @@ public class DAOs {
     @Dao
     public interface PaymentDAO{
         @Query("SELECT * FROM cards WHERE id = :id")
-        Entities.PaymentEntity getCardDetailsById(int id);
-
-        @Query("SELECT * FROM cards WHERE card = :cardNo")
-        Entities.PaymentEntity getCardDetailsByCardNumber(long cardNo);
+        Cursor getCardDetailsById(int id);
 
         @Query("SELECT amount FROM cards WHERE id = :id")
         float getAmountById(int id);
@@ -39,23 +36,11 @@ public class DAOs {
 
     @Dao
     public interface ProductDAO{
-        @Query("SELECT * FROM products WHERE prodId = :prodId")
-        Entities.ProductEntity getProductById(int prodId);
-
         @Query("SELECT * FROM products WHERE category = :category")
         Cursor getProductsByCategory(String category);
 
-        @Query("SELECT * FROM products WHERE vendor = :vendId")
-        Cursor getVendorProducts(int vendId);
-
         @Query("SELECT * FROM products WHERE category = :category AND name = :name")
         Entities.ProductEntity getProductByCategoryAndName(String category, String name);
-
-        @Query("SELECT vendor FROM products WHERE prodId = :prodId")
-        int getVendorIdByProductId(int prodId);
-
-        @Query("SELECT DISTINCT category FROM products WHERE vendor = :vendId")
-        Cursor getDistinctCategories(int vendId);
 
         @Query("SELECT * FROM products WHERE vendor = :vendId")
         Cursor getProductsByVendorId(int vendId);
@@ -78,17 +63,14 @@ public class DAOs {
         @Query("SELECT * FROM users WHERE emailId = :emailId")
         Entities.UserEntity getUserByEmail(String emailId);
 
-        @Query("SELECT 1 FROM users WHERE id = :id")
-        int isRegistered(int id);
-
-        @Query("SELECT 1 FROM users WHERE password = :password")
-        int isPasswordCorrect(String password);
-
         @Query("SELECT * FROM users WHERE emailId = :emailId")
         Cursor isUnique(String emailId);
 
+        @Query("SELECT * FROM users WHERE emailId = :emailId AND name = :name")
+        Cursor getIdByNameAndEmail(String name, String emailId);
+
         @Insert(onConflict = OnConflictStrategy.REPLACE)
-        long insertUser(Entities.UserEntity user);
+        void insertUser(Entities.UserEntity user);
 
         @Update(onConflict = OnConflictStrategy.REPLACE)
         void updateUser(Entities.UserEntity user);
@@ -105,17 +87,14 @@ public class DAOs {
         @Query("SELECT * FROM vendors WHERE emailId = :emailId")
         Entities.VendorEntity getVendorByEmail(String emailId);
 
-        @Query("SELECT 1 FROM vendors WHERE id = :id")
-        int isRegistered(int id);
-
-        @Query("SELECT 1 FROM vendors WHERE password = :password")
-        int isPasswordCorrect(String password);
-
         @Query("SELECT * FROM vendors WHERE emailId = :emailId")
         Cursor isUnique(String emailId);
 
+        @Query("SELECT * FROM vendors WHERE emailId = :emailId AND name = :name")
+        Cursor getIdByNameAndEmail(String name, String emailId);
+
         @Insert(onConflict = OnConflictStrategy.REPLACE)
-        long insertVendor(Entities.VendorEntity vendor);
+        void insertVendor(Entities.VendorEntity vendor);
 
         @Update(onConflict = OnConflictStrategy.REPLACE)
         void updateVendor(Entities.VendorEntity vendor);

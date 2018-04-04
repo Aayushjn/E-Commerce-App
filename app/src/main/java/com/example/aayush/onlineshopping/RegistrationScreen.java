@@ -3,6 +3,7 @@ package com.example.aayush.onlineshopping;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -107,7 +108,15 @@ class VThread extends Thread {
             vendor.setEmailId(email);
             vendor.setPassword(hashedPW);
             vendor.setSalt(new String(salt));
-            long id = vendorAcc.insertVendor(vendor);
+            vendorAcc.insertVendor(vendor);
+
+            Cursor vend = vendorAcc.getIdByNameAndEmail(name, email);
+            int id = 0;
+            if(vend.moveToFirst()){
+                id = vend.getInt(vend.getColumnIndex("id"));
+                vend.close();
+            }
+
             Intent moveOn = new Intent(activity, CardDetails.class);
             moveOn.putExtra("id", id);
             activity.startActivity(moveOn);
@@ -158,7 +167,14 @@ class UThread extends Thread {
             user.setEmailId(email);
             user.setPassword(hashedPW);
             user.setSalt(new String(salt));
-            long id = userAcc.insertUser(user);
+            userAcc.insertUser(user);
+
+            Cursor cursor = userAcc.getIdByNameAndEmail(name, email);
+            int id = 0;
+            if(cursor.moveToFirst()){
+                id = cursor.getInt(cursor.getColumnIndex("id"));
+                cursor.close();
+            }
             Intent moveOn = new Intent(current, CardDetails.class);
             moveOn.putExtra("id", id);
             current.startActivity(moveOn);
