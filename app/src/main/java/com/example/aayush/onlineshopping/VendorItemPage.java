@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import dbs.DAOs;
@@ -15,7 +16,7 @@ import static xdroid.toaster.Toaster.toast;
 
 public class VendorItemPage extends AppCompatActivity {
     private Bundle extras;
-    TextView pQuantity;
+    EditText pQuantity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,10 +31,10 @@ public class VendorItemPage extends AppCompatActivity {
         float price = extras.getFloat("price");
         int quantity = extras.getInt("quantity");
         TextView pName = findViewById(R.id.productName);
-        pName.setText(name);
         TextView pCategory = findViewById(R.id.productCategory);
-        pCategory.setText(category);
         TextView pPrice = findViewById(R.id.productPrice);
+        pName.setText(name);
+        pCategory.setText(category);
         pPrice.setText(String.valueOf(price));
         pQuantity = findViewById(R.id.productQuantity);
         pQuantity.setText(String.valueOf(quantity));
