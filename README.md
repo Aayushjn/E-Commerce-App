@@ -1,6 +1,6 @@
 # E-Commerce-App
 E-Commerce Android app written in Java using Room for database support
 
-Currently an ongoing project under IT306 course
+Course project under IT306 course
 
-Refer to Details.txt for info
+Requires Jellybean (4.1) to Android (8.0) to run
